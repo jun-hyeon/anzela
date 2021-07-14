@@ -1,13 +1,14 @@
 package com.example.angela;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.DialogInterface;
@@ -30,26 +31,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
-
-import org.json.JSONException;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executors;
+
 
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView timelineRinding;
     RecyclerView aroundRiding;
-    ArrayList<ListData> data = new ArrayList<>();
 
     NavigationView navi;
     DrawerLayout drawerLayout;
@@ -67,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
-    Thread t1,t2,t3;
+    Thread t1;
 
     String [] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}; //퍼미션을 배열로 저장
 
@@ -78,11 +70,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-
         Weather weather = new Weather();
 
         Server server = new Server();
+
+
 
 
         navi = (NavigationView)findViewById(R.id.navigationView);
@@ -112,54 +104,42 @@ public class MainActivity extends AppCompatActivity {
         allLinear = (LinearLayout) findViewById(R.id.allLinear);
         aroundLinear = (LinearLayout) findViewById(R.id.aroundLinear);
         timelineLinear = (LinearLayout) findViewById(R.id.timeLineLinear);
+        
 
-        SpannableString doBold = new SpannableString(textdo.getText());
-        doBold.setSpan(new StyleSpan(Typeface.BOLD),0,doBold.length(),0);
-        textdo.setText(doBold);
-
-        SpannableString rstBold = new SpannableString(ridingScheduleTitle.getText());
-        rstBold.setSpan(new StyleSpan(Typeface.BOLD),0,rstBold.length(),0);
-        ridingScheduleTitle.setText(rstBold);
-
-        SpannableString artBold = new SpannableString(aroundRidingTitle.getText());
-        artBold.setSpan(new StyleSpan(Typeface.BOLD),0,artBold.length(),0);
-        aroundRidingTitle.setText(artBold);
-
-       t2 = new Thread(new Runnable() {
+        t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-
                     weather.func();
+                   ArrayList<Post> postList = server.getAround();
+                    server.getPosts();
+                    server.getSoon();
+                    server.getDetail("1");
+
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             weatherCondition.setText(weather.getSky_value());
                             weatherTemp.setText(weather.getTemp_value()+"°");
+
+                            PostAdapter postAdapter = new PostAdapter(postList);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                            aroundRiding.setLayoutManager(layoutManager);
+                            aroundRiding.setItemAnimator(new DefaultItemAnimator());
+                            aroundRiding.setAdapter(postAdapter);
+
+
                         }
                     });
-                }catch (IOException  | JSONException e){
-                    e.printStackTrace();
-                }
-            }
-        });
-        t2.start();
 
-        t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    server.getPosts();
-                    server.getAround();
-                    server.getSoon();
-                    server.getDetail("1");
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
         });
         t1.start();
+
 
 
         locationText.setOnClickListener(new View.OnClickListener() {
@@ -225,10 +205,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
     }
 
     void onLocationSetting(){
@@ -271,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
             if (check_result) {
                 onLocationSetting();
                 //위치 값을 가져올 수 있음
-                ;
+
             } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료 2 가지 경우가 있음
 

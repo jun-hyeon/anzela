@@ -1,7 +1,6 @@
 package com.example.angela;
 
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +10,6 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-
 
 
 public class Server extends Thread {
@@ -256,8 +254,6 @@ public class Server extends Thread {
 //            Log.e("DETAIL", "" + main);
         }
 
-
             Log.e("DETAILlist",""+DetailList);
-
     }
 }

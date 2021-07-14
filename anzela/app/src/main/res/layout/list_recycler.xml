@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     >
@@ -44,7 +45,7 @@
             android:layout_below="@id/list_Title"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:layout_toEndOf="@+id/listCount"
+            android:layout_toEndOf="@id/listCount"
             android:background="@color/very_light_pink" />
 
         <TextView
@@ -54,17 +55,18 @@
             android:layout_below="@id/list_Title"
             android:layout_marginStart="7dp"
             android:layout_marginBottom="-3dp"
-            android:layout_toEndOf="@+id/listView"
+            android:layout_toEndOf="@id/listView"
             android:text="예정일"
             android:textColor="@color/very_light_pink"
             android:textSize="14dp" />
 
         <TextView
+            android:id="@+id/setDate"
             android:layout_below="@id/list_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:layout_toEndOf="@+id/comingDate"
+            android:layout_toEndOf="@id/comingDate"
             android:text="2021. 01. 31"
             android:textColor="@color/very_light_pink"
             android:textSize="14dp" />

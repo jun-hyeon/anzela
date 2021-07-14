@@ -65,6 +65,7 @@
             android:textColor="@color/white"
             android:text="do님, 오늘도\n달려볼까요?"
             android:textSize="24dp"
+            android:textStyle="bold"
             />
 
         <RelativeLayout
@@ -149,17 +150,18 @@
             android:text="다가오는 라이딩 일정"
             android:layout_marginBottom="8dp"
             android:textSize="16dp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:visibility="gone"
             android:id="@+id/timelineRiding"
-            android:layout_below="@+id/ridingScheduleTitle"
+            android:layout_below="@id/ridingScheduleTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
             <LinearLayout
-                android:layout_below="@+id/ridingScheduleTitle"
+                android:layout_below="@id/ridingScheduleTitle"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -256,14 +258,15 @@
                 android:textColor="@color/white"
                 android:text="내 근처 라이딩 모임"
                 android:layout_marginBottom="8dp"
-                android:textSize="16dp"/>
+                android:textSize="16dp"
+                android:textStyle="bold"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:layout_alignTop="@id/aroundRidingTitle"
-                android:layout_alignBottom="@+id/aroundRidingTitle"
+                android:layout_alignBottom="@id/aroundRidingTitle"
                 android:layout_toStartOf="@id/locationText"
                 android:src="@drawable/ic_marker" />
 
@@ -279,15 +282,15 @@
                 android:textSize="14dp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:visibility="gone"
+
                 android:id="@+id/aroundRiding"
-                android:layout_below="@+id/aroundRidingTitle"
+                android:layout_below="@id/aroundRidingTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 />
             <LinearLayout
-                android:layout_below="@+id/aroundRidingTitle"
+                android:layout_below="@id/aroundRidingTitle"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -297,66 +300,6 @@
                 android:orientation="vertical"
                 >
 
-                <RelativeLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rentangle_list">
-
-
-                    <TextView
-                        android:id="@+id/list_Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="12dp"
-                        android:text="목감천 라이딩해요"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:id="@+id/listCount"
-                        android:layout_marginStart="16dp"
-                        android:layout_below="@id/list_Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:textColor="@color/very_light_pink"
-                        android:text="최대 4명"/>
-
-                    <View
-                        android:id="@+id/listView"
-                        android:layout_width="1dp"
-                        android:layout_height="14dp"
-                        android:layout_below="@id/list_Title"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_toEndOf="@+id/listCount"
-                        android:background="@color/very_light_pink" />
-
-                    <TextView
-                        android:id="@+id/comingDate2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/list_Title"
-                        android:layout_marginStart="7dp"
-                        android:layout_marginBottom="-3dp"
-                        android:layout_toEndOf="@+id/listView"
-                        android:text="예정일"
-                        android:textColor="@color/very_light_pink"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_below="@id/list_Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_toEndOf="@+id/comingDate2"
-                        android:text="2021. 01. 31"
-                        android:textColor="@color/very_light_pink"
-                        android:textSize="14dp" />
-                </RelativeLayout>
 
             </LinearLayout>
 
@@ -364,7 +307,7 @@
 
 
         <RelativeLayout
-            android:layout_below="@+id/nearRiding"
+            android:layout_below="@id/nearRiding"
             android:layout_marginTop="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
@@ -376,7 +319,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
 
-                android:layout_toStartOf="@+id/rightArrow"
+                android:layout_toStartOf="@id/rightArrow"
                 android:text="더 많은 글 보러가기"
                 android:textColor="@color/white"
                 android:textSize="12dp"

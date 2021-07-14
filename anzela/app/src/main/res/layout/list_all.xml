@@ -213,7 +213,7 @@
                        android:layout_below="@id/list_Title"
                        android:layout_marginStart="7dp"
                        android:layout_marginBottom="-3dp"
-                       android:layout_toEndOf="@+id/listView"
+                       android:layout_toEndOf="@id/listView"
                        android:text="예정일"
                        android:textColor="@color/very_light_pink"
                        android:textSize="14dp" />
@@ -223,85 +223,13 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginStart="6dp"
-                       android:layout_toEndOf="@+id/comingDate"
+                       android:layout_toEndOf="@id/comingDate"
                        android:text="2021.01.31"
                        android:textColor="@color/very_light_pink"
                        android:textSize="14dp" />
 
 
                </RelativeLayout>
-
-               <LinearLayout
-
-                   xmlns:android="http://schemas.android.com/apk/res/android"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                   android:orientation="vertical"
-                   >
-                   <RelativeLayout
-                       android:layout_marginTop="8dp"
-                       android:layout_marginBottom="8dp"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:background="@drawable/rentangle_list">
-
-
-                       <TextView
-                           android:id="@+id/list_Title2"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_marginStart="15dp"
-                           android:layout_marginTop="12dp"
-
-                           android:text="목감천 라이딩해요"
-                           android:textColor="@color/white"
-                           android:textSize="16dp" />
-
-                       <TextView
-                           android:id="@+id/listCount2"
-                           android:layout_marginStart="16dp"
-                           android:layout_below="@id/list_Title2"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:textSize="14dp"
-                           android:textColor="@color/very_light_pink"
-                           android:text="최대 4명"/>
-
-                       <View
-                           android:id="@+id/listView2"
-                           android:layout_width="1dp"
-                           android:layout_height="14dp"
-                           android:layout_below="@id/list_Title2"
-                           android:layout_marginStart="8dp"
-                           android:layout_marginTop="4dp"
-                           android:layout_toEndOf="@+id/listCount2"
-                           android:background="@color/very_light_pink" />
-
-                       <TextView
-                           android:id="@+id/comingDate2"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_below="@id/list_Title2"
-                           android:layout_marginStart="7dp"
-                           android:layout_marginBottom="-3dp"
-                           android:layout_toEndOf="@+id/listView2"
-                           android:text="예정일"
-                           android:textColor="@color/very_light_pink"
-                           android:textSize="14dp" />
-
-                       <TextView
-                           android:layout_below="@id/list_Title2"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_marginStart="6dp"
-                           android:layout_toEndOf="@+id/comingDate2"
-                           android:text="2021.01.31"
-                           android:textColor="@color/very_light_pink"
-                           android:textSize="14dp" />
-                   </RelativeLayout>
-
-               </LinearLayout>
 
            </LinearLayout>
        </LinearLayout>

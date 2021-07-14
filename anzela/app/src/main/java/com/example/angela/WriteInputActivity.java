@@ -1,11 +1,13 @@
 package com.example.angela;
 
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -24,13 +26,13 @@ import java.util.Calendar;
 
 
 
-public class WriteInputActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class WriteInputActivity extends AppCompatActivity {
     Dialog dialog_write;
     Dialog dialogCount;
     Dialog dialogNecessarry;
     TextView editDate,count,cbText,completeBtn;
     CheckBox cb;
-    ImageView close;
+    ImageView write_close;
     EditText titleWrite,arrivalWrite,startWrite,infoWrite;
     View titleView, arrivalView, startView, infoView;
 
@@ -44,7 +46,7 @@ public class WriteInputActivity extends AppCompatActivity implements DatePickerD
 
 
         editDate = (TextView) findViewById(R.id.editDate);
-        close = (ImageView) findViewById(R.id.close);
+        write_close = (ImageView) findViewById(R.id.write_close);
         count = (TextView) findViewById(R.id.count);
         cb = (CheckBox) findViewById(R.id.cb);
         cbText = (TextView) findViewById(R.id.checkboxText);
@@ -80,15 +82,17 @@ public class WriteInputActivity extends AppCompatActivity implements DatePickerD
         editDate.setText(edDate);
 
         editDate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(),"date Picker");
-                clearFocus();
+//                DialogFragment datePicker = new DatePickerFragment();
+//
+//                datePicker.show(getSupportFragmentManager(),"date Picker");
+                    showCalendarDialog();
             }
         });
 
-        close.setOnClickListener(new View.OnClickListener() {
+        write_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                showWriteDialog();
@@ -328,6 +332,25 @@ public class WriteInputActivity extends AppCompatActivity implements DatePickerD
 
     }
 
+    void showCalendarDialog(){
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(WriteInputActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int myear, int mmonth, int mdayOfMonth) {
+                String currentDateString = (myear+"년"+(mmonth+1)+"월"+mdayOfMonth+"일");
+                SpannableString dateUnderline = new SpannableString(currentDateString);
+                dateUnderline.setSpan(new UnderlineSpan(), 0, dateUnderline.length(), 0);
+                editDate.setText(dateUnderline);
+            }
+        }, year, month,dayOfMonth);
+           datePickerDialog.show();
+        }
+
+
     void showNecessarryDialog(){
         dialogNecessarry.show();
         TextView okayBtn = dialogNecessarry.findViewById(R.id.okayBtn);
@@ -340,18 +363,6 @@ public class WriteInputActivity extends AppCompatActivity implements DatePickerD
         });
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar c  = Calendar.getInstance();
-        c.set(Calendar.YEAR,year);
-        c.set(Calendar.MONTH,month);
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        SpannableString dateUnderline = new SpannableString(currentDateString);
-        dateUnderline.setSpan(new UnderlineSpan(),0,dateUnderline.length(),0);
-        editDate.setText(dateUnderline);
-    }
 
 
 }
