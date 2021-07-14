@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ListDetailActivity"
+    android:orientation="vertical"
+    android:background="@color/black_two"
+    >
+
+
+        <LinearLayout
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/leftArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_left_arrow_white"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"/>
+
+        </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                >
+
+                <LinearLayout
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="48dp">
+
+            <LinearLayout
+                android:layout_marginTop="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/detailTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="@color/white"
+                    android:text="같이 쿠팡이츠 배달하실 분"/>
+            </LinearLayout>
+
+
+        <RelativeLayout
+
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/detailprofile"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/profile"
+                android:background="@drawable/circle_profile"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/detailprofile"
+                android:text="강북멋쟁이"
+                android:textColor="@color/brown_grey"
+                android:textSize="12dp" />
+
+            <TextView
+                android:textColor="@color/brown_grey"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2021. 01. 31작성"
+                android:textSize="12dp"/>
+
+            </RelativeLayout>
+
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                android:layout_alignParentBottom="true"
+                />
+
+            </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_marginTop="24dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/black">
+
+                        <TextView
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="라이딩 예정일"
+                            android:textColor="@color/brown_grey"
+                            android:textSize="14dp"/>
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="2020년 2월 3일 토요일 오후 4시"
+                            android:textColor="@color/white"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="16dp"
+                            android:textSize="14dp"
+                            />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/black">
+
+                        <TextView
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="모집인원"
+                            android:textColor="@color/brown_grey"
+                            android:textSize="14dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="제한없음"
+                            android:textColor="@color/white"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="16dp"
+                            android:textSize="14dp"
+                            />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/black">
+
+                        <TextView
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="출발지"
+                            android:textColor="@color/brown_grey"
+                            android:textSize="14dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="서울시 강남구 테헤란로 12길"
+                            android:textColor="@color/white"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="16dp"
+                            android:textSize="14dp"
+                            />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/black">
+
+                        <TextView
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="도착지"
+                            android:textColor="@color/brown_grey"
+                            android:textSize="14dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="서울시 금천구 디지털로 12212길"
+                            android:textColor="@color/white"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="16dp"
+                            android:textSize="14dp"
+                            />
+
+                    </RelativeLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="4dp"
+                        >
+
+                       <fragment
+                           android:layout_width="match_parent"
+                           android:layout_height="140dp"
+                           android:id="@+id/googleMap"
+                           android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
+                    </androidx.cardview.widget.CardView>
+                    <LinearLayout
+                        android:layout_marginTop="24dp"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/rectangle_layout">
+
+                        <TextView
+                            android:layout_marginTop="16dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="상세내용"
+                            android:textSize="14dp"
+                            android:textColor="@color/very_light_pink"
+                            />
+
+                        <TextView
+                            android:padding="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14dp"
+                            android:textColor="@color/white"
+                            android:text="요즘 쿠팡이츠 배달에 빠져서 하고있어요\n취미가 비슷한 20대 30대 분들 같이 돈벌면서
+                                          놀아요 신청해주시고 댓글 남겨주세요"/>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="36dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="댓글 0개"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"/>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/renctangle_black">
+
+                        <EditText
+                            android:id="@+id/comment_editText"
+                            android:padding="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="댓글을 입력하세요"
+                            android:textColorHint="@color/very_light_pink"
+                            android:textColor="@color/white"
+                            android:textSize="14dp"
+                            android:background="@null"/>
+
+                        <ImageView
+                            android:id="@+id/message"
+                            android:layout_marginEnd="4dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:padding="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_comment_mint"
+                            android:background="@drawable/circle_black"/>
+                   </RelativeLayout>
+                    <LinearLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="48dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/black"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_marginTop="16dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/commentProfile"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="16dp"
+                                    android:background="@drawable/circle_profile"/>
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_toEndOf="@+id/commentProfile"
+                                    android:text="천왕동불주먹"
+                                    android:textSize="12dp"
+                                    android:textColor="@color/very_light_pink"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/very_light_pink"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginEnd="16dp"
+                                    android:layout_centerVertical="true"
+                                    android:textSize="12dp"
+                                    android:text="2021. 01. 31"/>
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="16dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:text="엇!! 저도 목감천 자주 타러갑니다 ㅋㅋㅋ 신청할게요~"
+                                    android:textColor="@color/white"
+                                    android:textSize="14dp" />
+
+                            </RelativeLayout>
+
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginBottom="48dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:background="@color/black"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="14dp"
+                            android:text="첫번째 댓글의 주인공이 되어보세요!"
+                            android:textColor="@color/white"
+                            />
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rightBtn"
+                android:layout_weight="6"
+                android:background="@color/very_light_pink"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="수정하기"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/leftBtn"
+                android:layout_weight="4"
+                android:background="@color/aqua_marine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="신청현황 바로보기"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                />
+
+        </LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_rectangle">
+
+    <LinearLayout
+        android:layout_marginTop="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="14dp"
+            android:textColor="@color/black_five"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="모집인원을 알려주세요."
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
+        android:layout_marginTop="48dp"
+        android:background="#f4f4f4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+
+            android:id="@+id/countEdit"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:background="@null"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="모집인원(최소 1명)"
+            android:textColorHint="@color/dark_grey"
+            android:inputType="number"
+            />
+
+        <View
+            android:id="@+id/personCountView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dark_grey"/>
+
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/countDialogCancel"
+                android:layout_weight="5"
+                android:background="@color/very_light_pink"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="취소"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/countDialogApply"
+                android:layout_weight="5"
+                android:background="@color/aqua_marine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="적용"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+
+
+</LinearLayout>

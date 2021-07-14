@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#272727</color>
+    <color name="white">#ffffff</color>
+    <color name="very_light_pink">#c0c0c0</color>
+    <color name="brown_grey">#acacac</color>
+    <color name="black_four">#343434</color>
+    <color name="black_three">#181818</color>
+    <color name="greyish_brown">#434343</color>
+    <color name="very_light_pink_two">#d8d8d8</color>
+    <color name="black_five">#000000</color>
+    <color name="very_light_pink_three">#e7e7e7</color>
+    <color name="black_six">#0d0d0d</color>
+    <color name="tealish">#45d6b4</color>
+    <color name="black_two">#1e1e1e</color>
+    <color name="light_blue_grey">#b6dde8</color>
+    <color name="yellowish">#ece972</color>
+    <color name="white_three">#f7f7f7</color>
+    <color name="pale_grey">#eaf3ff</color>
+    <color name="clear_blue">#288bff</color>
+    <color name="off_white">#ffffe3</color>
+    <color name="brownish_grey">#737373</color>
+    <color name="red_brown">#711111</color>
+    <color name="aqua_marine">#45d6b4</color>
+    <color name="dark_grey">#848484</color>
+    <color name="dark_green">#2a594e</color>
+</resources>

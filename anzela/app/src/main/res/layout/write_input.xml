@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WriteInputActivity"
+    android:background="@color/black_two"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_white"
+            android:paddingVertical="22dp"/>
+
+        <TextView
+            android:id="@+id/completeBtn"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="22dp"
+            android:text="완료"
+            android:textColor="@color/dark_green"
+            android:background="@drawable/write_disable"/>
+
+    </RelativeLayout>
+
+        <ScrollView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+               android:layout_marginBottom="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+               >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24dp"
+                    android:text="글작성"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@color/black"
+                    android:layout_marginTop="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/titleWrite"
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="[필수] 글 제목"
+                        android:textSize="14dp"
+                        android:textColorHint="#848484"
+                        android:background="@null"
+                        android:textColor="@color/white"
+                        android:maxLines="1"
+                        />
+
+                    <View
+                        android:id="@+id/titleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/dark_grey"
+                        />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:background="@color/black"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/dateWrite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="라이딩 예정일"
+                        android:textSize="14dp"
+                        android:padding="16dp"
+                        android:textColorHint="@color/very_light_pink"
+                        android:background="@null"
+                        android:textColor="@color/white"
+                        />
+
+                    <TextView
+                        android:id="@+id/editDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="16dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
+                        android:text="2021년 06월 01일"
+                        android:textColor="@color/white"
+                        android:textSize="14dp" />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_toStartOf="@+id/editDate"
+                        android:src="@drawable/ic_calendar_white"
+                        android:layout_centerVertical="true"/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:background="@color/black"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/countWrite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="모집인원"
+                        android:textSize="14dp"
+                        android:padding="16dp"
+                        android:textColorHint="@color/very_light_pink"
+                        android:background="@null"
+                        android:textColor="@color/white"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
+                        android:text="총2명"
+                        android:textColor="@color/white"
+                        android:textSize="14dp" />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_toStartOf="@+id/count"
+                        android:src="@drawable/ic_team_white"
+                        android:layout_centerVertical="true"/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:paddingStart="16dp"
+                        android:id="@+id/dot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/aqua_marine"
+                        android:textSize="12dp"
+                        android:text="·"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:layout_toEndOf="@+id/dot"
+                        android:text="본인을 포함하지않은 모집인원을 선택해주세요."
+                       android:textColor="@color/very_light_pink"
+                        android:textSize="12dp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="24dp"
+                    android:background="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/startWrite"
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="[필수] 출발지"
+                        android:textSize="14dp"
+                        android:textColorHint="#848484"
+                        android:background="@null"
+                        android:textColor="@color/white"
+                        />
+
+                    <View
+                        android:id="@+id/startView"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#848484"
+                        />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:background="@color/black"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/arrivalWrite"
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="도착지"
+                        android:textSize="14dp"
+                        android:textColorHint="#848484"
+                        android:background="@null"
+                        android:textColor="@color/white"
+                        />
+
+                    <CheckBox
+                        android:id="@+id/cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="8dp"
+                        android:layout_toStartOf="@+id/checkboxText"
+                        android:button="@null"
+                        android:drawableStart="@drawable/checkbox"
+                        android:textColor="#848484"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/checkboxText"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp"
+                        android:text="정하지않음"
+                        android:textColor="#848484"
+                        android:textSize="14dp" />
+
+                    <View
+                        android:id="@+id/arrivalView"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="0dp"
+                        android:background="#848484" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/infoWrite"
+                        android:gravity="top"
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:textSize="14dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="#848484"
+                        android:hint="[필수] 상세내용을 입력해주세요.
+                        \n개인정보 및 번호는 유출 될 수 있으니
+                        \n주의해서 작성해주세요"/>
+
+                    <View
+                        android:id="@+id/infoView"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#848484"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:background="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:padding="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="사진첨부 (최대 3장)"
+                            android:textColor="#848484"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="48dp">
+
+                       <ImageView
+                           android:paddingStart="16dp"
+                           android:paddingBottom="16dp"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@drawable/ic_gallery"
+                           />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
