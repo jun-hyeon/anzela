@@ -31,6 +31,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
-    Thread t1;
+    Thread t1,t2,t3,t4,t5;
 
     String [] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}; //퍼미션을 배열로 저장
 
@@ -104,17 +107,13 @@ public class MainActivity extends AppCompatActivity {
         allLinear = (LinearLayout) findViewById(R.id.allLinear);
         aroundLinear = (LinearLayout) findViewById(R.id.aroundLinear);
         timelineLinear = (LinearLayout) findViewById(R.id.timeLineLinear);
-        
+
 
         t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    weather.func();
                    ArrayList<Post> postList = server.getAround();
-                    server.getPosts();
-                    server.getSoon();
-                    server.getDetail("1");
 
 
                     runOnUiThread(new Runnable() {
@@ -128,8 +127,6 @@ public class MainActivity extends AppCompatActivity {
                             aroundRiding.setLayoutManager(layoutManager);
                             aroundRiding.setItemAnimator(new DefaultItemAnimator());
                             aroundRiding.setAdapter(postAdapter);
-
-
                         }
                     });
 
@@ -137,8 +134,61 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }); t1.start();
+
+
+        t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    weather.func();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }); t2.start();
+
+        t3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    server.getPosts();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }); t3.start();
+
+        t4 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+//                    server.getSoon();
+                      server.getDetail("1");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }); t4.start();
+
+        t5 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    server.getSoon();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         });
-        t1.start();
+
+
+
 
 
 

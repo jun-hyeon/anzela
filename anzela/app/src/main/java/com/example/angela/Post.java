@@ -14,6 +14,15 @@ public class Post {
     private double endLng;
     private int cmtCnt;
     private String regDate;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getId() {
         return id;
@@ -134,7 +143,9 @@ public class Post {
                 ", endLat=" + endLat +
                 ", endLng=" + endLng +
                 ", cmtCnt=" + cmtCnt +
-                ", regDate='" + regDate + '\'' +
+                ", regDate=" + regDate + '\'' +
+                ", userId=" + user.uid + '\'' +
+                ", profilUrl" + user.profileUrl + '\''+
                 '}';
     }
 }

@@ -14,11 +14,12 @@ import java.util.ArrayList;
 
 public class Server extends Thread {
 
-    URL url;
+
 
     public String get(String method, String uri) {
 
         String result = null;
+        URL url;
 
         try {
             String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5oeWVvbiIsImlhdCI6MTYyNTA0MTY4MiwiZXhwIjoxNjU2NTc3NjgyfQ.NFnGiqMVgMQMUgO0GdNODedEwp44pl4VjsDr99ilacA";
@@ -85,8 +86,9 @@ public class Server extends Thread {
         JSONArray bodyContent = main.getJSONObject("data").getJSONArray("content");
         ArrayList<Post> PostList = new ArrayList<>();
 
-
+        Log.e("GETPOSTS",""+bodyContent);
         for(int i = 0; i < bodyContent.length(); i++){
+
             Post post = new Post();
 
             JSONObject item = bodyContent.getJSONObject(i);
@@ -116,7 +118,7 @@ public class Server extends Thread {
         for (int i = 0; i < PostList.size(); i++) {
          Log.e("postList",""+PostList.get(i));     //size = 2
         }
-//        Log.d("TAG",""+postList.size());
+        Log.d("TAG",""+PostList.size());
 
         return PostList;
     }
@@ -134,7 +136,7 @@ public class Server extends Thread {
 //        Log.e("getAround",""+main);
 
         JSONArray bodyContent = main.getJSONObject("data").getJSONArray("content");
-      //  Log.d("bodyContent",""+bodyContent);
+        Log.e("GETAround",""+bodyContent);
 
         ArrayList<Post> AroundList = new ArrayList<>();
 
@@ -164,10 +166,10 @@ public class Server extends Thread {
             AroundList.add(around);
         }
 
-        for (int i = 0; i < AroundList.size(); i++) {
-            Log.e("AroundList",""+AroundList.get(i));
-
-        }
+//        for (int i = 0; i < AroundList.size(); i++) {
+//            Log.e("AroundList",""+AroundList.get(i));
+//
+//        }
         return AroundList;
     }
 
@@ -179,7 +181,7 @@ public class Server extends Thread {
         //Log.e("SOON",""+main);
 
         JSONArray bodyContent = main.getJSONObject("data").getJSONArray("content");
-
+        Log.e("GETSoon",""+bodyContent);
         ArrayList<Post> SoonList = new ArrayList<>();
 
         for (int i = 0; i < bodyContent.length(); i++) {
@@ -216,44 +218,18 @@ public class Server extends Thread {
         return SoonList;
     }
 
-    public void getDetail(String postId) throws JSONException {
+    public String getDetail(String postId) throws JSONException {
         String id = postId;
         String result = get("GET", "/api/v1/posts/" + id);
 
         JSONObject main = new JSONObject(result);
-//        Log.e("detial",""+main);
         JSONObject bodyContent = main.getJSONObject("data");
-        Log.e("DETAILDATA",""+bodyContent);
+        Log.e("GETDetail",""+bodyContent);
 
-        ArrayList<Post> DetailList = new ArrayList<>();
-
-
-            Post detail = new Post();
-            detail.setId(bodyContent.getInt("id"));
-            detail.setTitle(bodyContent.getString("title"));
-            detail.setContent(bodyContent.getString("content"));
-            detail.setCurCnt(bodyContent.getInt("cruCnt"));
-            detail.setStartDate(bodyContent.getString("startDate"));
-            detail.setStartPoint(bodyContent.getString("startDate"));
-            detail.setStartLat(bodyContent.getDouble("startLat"));
-            detail.setStartLng(bodyContent.getDouble("startLng"));
-            detail.setCmtCnt(bodyContent.getInt("cmtCnt"));
-            detail.setRegDate(bodyContent.getString("regDate"));
-
-            if(bodyContent.has("endPoint")) {
-                detail.setEndPoint(bodyContent.getString("endPoint"));
-            }
-            if(bodyContent.has("endLat")){
-                detail.setEndLat(bodyContent.getDouble("endLat"));
-            }
-            if(bodyContent.has("endLng")){
-                detail.setEndLng(bodyContent.getDouble("endLng"));
-
-
-            DetailList.add(detail);
+        String data = result;
 //            Log.e("DETAIL", "" + main);
-        }
 
-            Log.e("DETAILlist",""+DetailList);
+        return data;
+        }
     }
-}
+

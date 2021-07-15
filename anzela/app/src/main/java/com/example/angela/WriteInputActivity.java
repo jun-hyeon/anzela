@@ -341,7 +341,7 @@ public class WriteInputActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int myear, int mmonth, int mdayOfMonth) {
-                String currentDateString = (myear+"년"+(mmonth+1)+"월"+mdayOfMonth+"일");
+                String currentDateString = (myear+"년 "+(mmonth+1)+"월 "+mdayOfMonth+"일");
                 SpannableString dateUnderline = new SpannableString(currentDateString);
                 dateUnderline.setSpan(new UnderlineSpan(), 0, dateUnderline.length(), 0);
                 editDate.setText(dateUnderline);
