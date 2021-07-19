@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
-    Thread t1,t2,t3,t4,t5;
+//    Thread t1,t2,t3,t4,t5;
 
     String [] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}; //퍼미션을 배열로 저장
 
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        t1 = new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -127,10 +127,10 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }); t1.start();
+        }).start();
 
 
-        t2 = new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }); t2.start();
+        }).start();
 
 
 
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }); t3.start();
 
-        t4 = new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }); t4.start();
+        }).start();
 
 
         locationText.setOnClickListener(new View.OnClickListener() {

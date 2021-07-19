@@ -13,6 +13,7 @@
         android:orientation="vertical">
 
     <TextView
+        android:id="@+id/info1"
         android:layout_marginTop="46dp"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -21,6 +22,7 @@
         android:textColor="@color/black_five"
         android:text="글 등록을 그만할까요?"/>
     <TextView
+        android:id="@+id/info2"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

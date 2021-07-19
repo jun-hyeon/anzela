@@ -1,11 +1,6 @@
 package com.example.angela;
 
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,22 +17,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 
-public class WriteInputActivity extends AppCompatActivity {
+public class EditInputActivity extends AppCompatActivity {
     Dialog dialog_write;
     Dialog dialogCount;
     Dialog dialogNecessarry;
-    TextView editDate,count,cbText,completeBtn;
+    TextView editDate,count,cbText,completeBtn,state;
     CheckBox cb;
     ImageView write_close;
     EditText titleWrite,arrivalWrite,startWrite,infoWrite;
@@ -48,16 +43,19 @@ public class WriteInputActivity extends AppCompatActivity {
     int pcount = 0;
     String calenderString;
     Intent intent;
-    int state;
+    int detailId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.write_input);
 
-        Server server = new Server();
         intent = getIntent();
-        state = intent.getIntExtra("state",0);
+        detailId = intent.getIntExtra("id",-1);
+        Log.e("EDITACTIVITY","detailId"+detailId);
+        Server server = new Server();
 
+        state = (TextView) findViewById(R.id.state);
         editDate = (TextView) findViewById(R.id.editDate);
         write_close = (ImageView) findViewById(R.id.write_close);
         count = (TextView) findViewById(R.id.count);
@@ -76,16 +74,16 @@ public class WriteInputActivity extends AppCompatActivity {
         infoView = (View) findViewById(R.id.infoView);
 
 
-        dialog_write = new Dialog(WriteInputActivity.this);
-        dialogCount = new Dialog(WriteInputActivity.this);
-        dialogNecessarry = new Dialog(WriteInputActivity.this);
+        dialog_write = new Dialog(EditInputActivity.this);
+        dialogCount = new Dialog(EditInputActivity.this);
+        dialogNecessarry = new Dialog(EditInputActivity.this);
 
 
         dialog_write.setContentView(R.layout.dialog_write);
         dialogCount.setContentView(R.layout.dialog_count);
         dialogNecessarry.setContentView(R.layout.dialog_necessarry);
 
-
+        state.setText("글 수정");
 
         SpannableString personcount = new SpannableString("총 "+pcount+"명");
         personcount.setSpan(new UnderlineSpan(),0,personcount.length(),0);
@@ -118,11 +116,11 @@ public class WriteInputActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(cb.isChecked()){
                     cbText.setTextColor(getResources().getColor(R.color.white));
-                    arrivalView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
+                    arrivalView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.aqua_marine));
                     clearFocus();
                 }else{
                     cbText.setTextColor(getResources().getColor(R.color.dark_grey));
-                    arrivalView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.dark_grey));
+                    arrivalView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.dark_grey));
                 }
             }
         });
@@ -130,9 +128,9 @@ public class WriteInputActivity extends AppCompatActivity {
         titleWrite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                titleView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
+                titleView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.aqua_marine));
                 if(!hasFocus){
-                    titleView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.dark_grey));
+                    titleView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.dark_grey));
                 }
             }
         });
@@ -141,9 +139,9 @@ public class WriteInputActivity extends AppCompatActivity {
         startWrite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                startView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
+                startView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.aqua_marine));
                 if(!hasFocus){
-                    startView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.dark_grey));
+                    startView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.dark_grey));
                 }
             }
         });
@@ -151,9 +149,9 @@ public class WriteInputActivity extends AppCompatActivity {
         arrivalWrite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                arrivalView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
+                arrivalView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.aqua_marine));
                 if(!hasFocus){
-                    arrivalView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.dark_grey));
+                    arrivalView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.dark_grey));
                 }
             }
         });
@@ -170,9 +168,9 @@ public class WriteInputActivity extends AppCompatActivity {
         infoWrite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                infoView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
+                infoView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.aqua_marine));
                 if(!hasFocus){
-                    infoView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.dark_grey));
+                    infoView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.dark_grey));
                 }
             }
         });
@@ -180,7 +178,6 @@ public class WriteInputActivity extends AppCompatActivity {
         completeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                         if(isComplete){
                             Thread t1 = new Thread(new Runnable() {
                                 @Override
@@ -195,10 +192,9 @@ public class WriteInputActivity extends AppCompatActivity {
                                         if(cb.isChecked()){
                                             post.setEndPoint(null);
                                         }
-
                                         post.setContent(infoWrite.getText().toString());
 
-                                        server.postWrite(post);
+                                       server.postModify(post,detailId);
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -247,52 +243,39 @@ public class WriteInputActivity extends AppCompatActivity {
 
         arrivalWrite.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isAbled();
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { isAbled(); }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+            public void afterTextChanged(Editable s) { }});
 
         infoWrite.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-             isAbled();
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { isAbled(); }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
     }
 
     public void isAbled(){
-        if((titleWrite.getText().toString().equals("") || titleWrite.getText().toString() == null) == false
-                &&(startWrite.getText().toString().equals("") || startWrite.getText().toString() == null) == false
-                &&((arrivalWrite.getText().toString().equals("") || arrivalWrite.getText().toString() == null) == false || cb.isChecked())
-                &&(infoWrite.getText().toString().equals("") || infoWrite.getText().toString() == null ) == false){
+        if(!(titleWrite.getText().toString().equals("") || titleWrite.getText().toString() == null)
+                && !(startWrite.getText().toString().equals("") || startWrite.getText().toString() == null)
+                &&(!(arrivalWrite.getText().toString().equals("") || arrivalWrite.getText().toString() == null) || cb.isChecked())
+                && !(infoWrite.getText().toString().equals("") || infoWrite.getText().toString() == null)){
 
-            completeBtn.setTextColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
-            completeBtn.setBackground(ContextCompat.getDrawable(WriteInputActivity.this,R.drawable.rectangle_textwtire));
+            completeBtn.setTextColor(ContextCompat.getColor(EditInputActivity.this,R.color.aqua_marine));
+            completeBtn.setBackground(ContextCompat.getDrawable(EditInputActivity.this,R.drawable.rectangle_textwtire));
             isComplete = true;
         }else{
-            completeBtn.setTextColor(ContextCompat.getColor(WriteInputActivity.this,R.color.dark_green));
-            completeBtn.setBackground(ContextCompat.getDrawable(WriteInputActivity.this,R.drawable.write_disable));
+            completeBtn.setTextColor(ContextCompat.getColor(EditInputActivity.this,R.color.dark_green));
+            completeBtn.setBackground(ContextCompat.getDrawable(EditInputActivity.this,R.drawable.write_disable));
             isComplete = false;
 
         }
@@ -309,8 +292,13 @@ public class WriteInputActivity extends AppCompatActivity {
     public void showWriteDialog(){
             dialog_write.show();
 
+            TextView info1 = dialog_write.findViewById(R.id.info1);
+            TextView info2 = dialog_write.findViewById(R.id.info2);
             TextView dialogCancel = dialog_write.findViewById(R.id.dialogCancel);
             TextView dialogStop = dialog_write.findViewById(R.id.dialogStop);
+
+            info1.setText("글 수정을 그만할까요?");
+            info2.setText("모든 내용은 저장되지 않고 삭제됩니다.");
 
             dialogCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -341,9 +329,9 @@ public class WriteInputActivity extends AppCompatActivity {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if(!hasFocus){
-                        personCounterView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.dark_grey));
+                        personCounterView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.dark_grey));
                     }else{
-                        personCounterView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
+                        personCounterView.setBackgroundColor(ContextCompat.getColor(EditInputActivity.this,R.color.aqua_marine));
                     }
                 }
             });
@@ -376,7 +364,7 @@ public class WriteInputActivity extends AppCompatActivity {
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(WriteInputActivity.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(EditInputActivity.this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int myear, int mmonth, int mday) {

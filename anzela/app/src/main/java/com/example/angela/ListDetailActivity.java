@@ -3,6 +3,9 @@ package com.example.angela;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -29,17 +33,20 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
     ImageView leftArrow,message;
     GoogleMap googleMap;
     EditText comment_editText;
-    TextView detailTitle,content,cruCnt,startDate,startPoint,endPoint,cmtCnt,regDate;
+    TextView detailTitle,content,cruCnt,startDate,startPoint,endPoint,cmtCnt,regDate,deleteBtn;
     CircleImageView userProfile;
     TextView userId;
     TextView cmId,cmContent,depth,cmRegDate,cmUserId;
     TextView rightBtn,leftBtn;
-    DetailPost detailPost;
+    Post detailPost;
     double startLat, startLng, endLat, endLng;
     String profileUrl, cmProfileUrl;
     int detailId;
     Thread t1;
     Intent intent;
+    ArrayList<Comment> comments;
+    RecyclerView commentsRecyclerView;
+    LinearLayout addComments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +55,8 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
 
         Server server = new Server();
         intent = getIntent();
-        detailId = intent.getIntExtra("id",-1);
-
+        detailId = intent.getIntExtra("id",0);
+        Log.e("DETAILID",""+detailId);
 
 
         SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.googleMap);
@@ -71,8 +78,13 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
         endPoint = (TextView) findViewById(R.id.endPoint);
         cmtCnt = (TextView) findViewById(R.id.cmtCnt);
         regDate = (TextView) findViewById(R.id.regDate);
+        deleteBtn = (TextView) findViewById(R.id.deleteBtn);
+
         userProfile = (CircleImageView) findViewById(R.id.userProfile);
 
+        commentsRecyclerView = (RecyclerView) findViewById(R.id.commentsRecyclerView);
+
+        addComments = (LinearLayout) findViewById(R.id.addComments);
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +92,8 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                 finish();
             }
         });
+
+
 
         comment_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -94,17 +108,17 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
             }
         });
 
-        t1 = new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
 
                 try {
                     detailPost = server.getDetail(detailId);
                     detailTitle.setText(detailPost.getTitle());
-                    userId.setText(detailPost.getUid());
+                    userId.setText(detailPost.getUser().getUid());
                     content.setText(detailPost.getContent());
-                    cruCnt.setText("최대 "+detailPost.getCruCnt()+"명");
-                    profileUrl = detailPost.getProfileUrl();
+                    cruCnt.setText("최대 "+detailPost.getCurCnt()+"명");
+                    profileUrl = detailPost.getUser().getProfileUrl();
 
                     startDate.setText(detailPost.getStartDate().substring(0,detailPost.getStartDate().indexOf(" ")));
                     startPoint.setText(detailPost.getStartPoint());
@@ -119,9 +133,23 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                     cmtCnt.setText("댓글 "+detailPost.getCmtCnt()+"개");
                     regDate.setText(detailPost.getRegDate());
 
+                    comments = detailPost.getComments();
+                    CommentsAdapter commentsAdapter = new CommentsAdapter(comments);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    commentsRecyclerView.setLayoutManager(layoutManager);
+                    commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                    commentsRecyclerView.setAdapter(commentsAdapter);
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if (comments.size() == 0){
+                                addComments.setVisibility(View.VISIBLE);
+                                commentsRecyclerView.setVisibility(View.GONE);
+                            }else{
+                                commentsRecyclerView.setVisibility(View.VISIBLE);
+                                addComments.setVisibility(View.GONE);
+                            }
                             Glide.with(ListDetailActivity.this).load(profileUrl).into(userProfile);
                         }
                     });
@@ -129,8 +157,61 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                     e.printStackTrace();
                 }
             }
+        }).start();
+
+
+
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent modify = new Intent(ListDetailActivity.this,EditInputActivity.class);
+                modify.putExtra("id",detailId);
+                startActivity(modify);
+                Log.e("DETAILACTIVITY","id" + detailId);
+            }
         });
-        t1.start();
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               new Thread(new Runnable() {
+                   @Override
+                   public void run() {
+                       server.postDelete(detailId);
+                   }
+               }).start();
+
+                finish();
+            }
+        });
+
+
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            String content = comment_editText.getText().toString();
+                            server.postComment(detailId,content);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    comment_editText.setText(" ");
+                                    comment_editText.clearFocus();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
+
+
     }
 
     @Override

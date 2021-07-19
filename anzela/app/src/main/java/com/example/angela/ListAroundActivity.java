@@ -80,6 +80,7 @@ public class ListAroundActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent goWrite = new Intent(getApplicationContext(), WriteInputActivity.class);
+                goWrite.putExtra("state",1);
                 startActivity(goWrite);
 
             }

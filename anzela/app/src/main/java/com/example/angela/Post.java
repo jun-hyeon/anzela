@@ -1,5 +1,7 @@
 package com.example.angela;
 
+import java.util.ArrayList;
+
 public class Post {
     private int id;
     private String title;
@@ -14,25 +16,40 @@ public class Post {
     private double endLng;
     private int cmtCnt;
     private String regDate;
-    private String uid;
-    private String profileUrl;
+    private User user;
+    private ArrayList<Comment> comments;
 
-
-    public String getUid() {
-        return uid;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
     }
 
-    public String getProfileUrl() {
-        return profileUrl;
+    public User getUser() {
+        return user;
     }
 
-    public void setProfileUrl(String profileUrl) {
-        this.profileUrl = profileUrl;
+    public ArrayList<Comment> getComments() {
+        return comments;
     }
+
+    //    public String getUid() {
+//        return uid;
+//    }
+//
+//    public void setUid(String uid) {
+//        this.uid = uid;
+//    }
+//
+//    public String getProfileUrl() {
+//        return profileUrl;
+//    }
+//
+//    public void setProfileUrl(String profileUrl) {
+//        this.profileUrl = profileUrl;
+//    }
 
     public int getId() {
         return id;
@@ -154,8 +171,8 @@ public class Post {
                 ", endLng=" + endLng +
                 ", cmtCnt=" + cmtCnt +
                 ", regDate='" + regDate + '\'' +
-                ", uId='" + uid + '\'' +
-                ", profileUrl='" + profileUrl + '\'' +
+                ", user=" + user +
+                ", comments=" + comments +
                 '}';
     }
 
