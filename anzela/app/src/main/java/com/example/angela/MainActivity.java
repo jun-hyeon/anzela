@@ -14,15 +14,12 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,28 +28,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
-
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView timelineRinding;
     RecyclerView aroundRiding;
-
     NavigationView navi;
     DrawerLayout drawerLayout;
     ImageView menu;
     ImageView close;
     ImageView rightArrow, weatherIcon;
     TextView all,around,timeLine,locationText,weatherTemp,weatherCondition,textdo,aroundRidingTitle,ridingScheduleTitle;
-
+    CircleImageView mainUserprofile;
     RelativeLayout weatherLayout;
     LinearLayout allLinear,aroundLinear,timelineLinear;
 
@@ -76,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         Weather weather = new Weather();
 
         Server server = new Server();
-
 
 
 
@@ -107,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         allLinear = (LinearLayout) findViewById(R.id.allLinear);
         aroundLinear = (LinearLayout) findViewById(R.id.aroundLinear);
         timelineLinear = (LinearLayout) findViewById(R.id.timeLineLinear);
+        mainUserprofile = (CircleImageView) findViewById(R.id.mainUserprofile);
+
 
 
         t1 = new Thread(new Runnable() {
@@ -115,12 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                    ArrayList<Post> postList = server.getAround();
 
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            weatherCondition.setText(weather.getSky_value());
-                            weatherTemp.setText(weather.getTemp_value()+"°");
 
                             PostAdapter postAdapter = new PostAdapter(postList);
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -142,6 +135,14 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try {
                     weather.func();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            weatherCondition.setText(weather.getSky_value());
+                            weatherTemp.setText(weather.getTemp_value()+"°");
+
+                        }
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -150,53 +151,48 @@ public class MainActivity extends AppCompatActivity {
             }
         }); t2.start();
 
-        t3 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
 
-                    server.getPosts();
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }); t3.start();
+
+
+//        t3 = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                      server.getDetail("1");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }); t3.start();
 
         t4 = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-
-//                    server.getSoon();
-                      server.getDetail("1");
+                    ArrayList<Post> soonList =  server.getSoon();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        TimeLineAdapter timeLineAdapter = new TimeLineAdapter(soonList);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                        timelineRinding.setLayoutManager(layoutManager);
+                        timelineRinding.setItemAnimator(new DefaultItemAnimator());
+                        timelineRinding.setAdapter(timeLineAdapter);
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }); t4.start();
 
-        t5 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    server.getSoon();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-
-
-
-
 
         locationText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 onLocationSetting();
+
             }
         });
 
@@ -250,8 +246,7 @@ public class MainActivity extends AppCompatActivity {
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent temp = new Intent(getApplicationContext(),ListDetailActivity.class);
-                startActivity(temp);
+
 
             }
         });

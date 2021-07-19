@@ -14,14 +14,24 @@ public class Post {
     private double endLng;
     private int cmtCnt;
     private String regDate;
-    private User user;
+    private String uid;
+    private String profileUrl;
 
-    public User getUser() {
-        return user;
+
+    public String getUid() {
+        return uid;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
     }
 
     public int getId() {
@@ -143,9 +153,11 @@ public class Post {
                 ", endLat=" + endLat +
                 ", endLng=" + endLng +
                 ", cmtCnt=" + cmtCnt +
-                ", regDate=" + regDate + '\'' +
-                ", userId=" + user.uid + '\'' +
-                ", profilUrl" + user.profileUrl + '\''+
+                ", regDate='" + regDate + '\'' +
+                ", uId='" + uid + '\'' +
+                ", profileUrl='" + profileUrl + '\'' +
                 '}';
     }
+
+
 }

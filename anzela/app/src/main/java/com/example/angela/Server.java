@@ -1,11 +1,16 @@
 package com.example.angela;
 
 import android.util.Log;
+
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -16,28 +21,43 @@ public class Server extends Thread {
 
 
 
-    public String get(String method, String uri) {
+    public String get(String method, String uri,String content) {
 
         String result = null;
         URL url;
+        int responseCode = 0;
 
         try {
             String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5oeWVvbiIsImlhdCI6MTYyNTA0MTY4MiwiZXhwIjoxNjU2NTc3NjgyfQ.NFnGiqMVgMQMUgO0GdNODedEwp44pl4VjsDr99ilacA";
             String line = "Bearer " + token;
-            url = new URL("http://15.165.35.47" + uri);
+            url = new URL("http://3.35.241.60" + uri);
 
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             urlConnection.setDoInput(true);
-            urlConnection.setDoOutput(false);
+
             urlConnection.setUseCaches(false);
             urlConnection.setRequestMethod(method);
+
+            if(method.equals("POST")){
+                urlConnection.setDoOutput(true);
+            }
+
             urlConnection.setConnectTimeout(10000);
             urlConnection.setRequestProperty("content-type", "application/json");
+            urlConnection.setRequestProperty("Accept", "application/json");
             urlConnection.setRequestProperty("Authorization", line);
 
+            if(urlConnection.getDoOutput()){
+                String obj = content;
+                OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream());
+                wr.write(content);
+                wr.flush();
+                wr.close();
+            }
 
-            int responseCode = urlConnection.getResponseCode();
+
+             responseCode = urlConnection.getResponseCode();
 
             Log.d("posts","주소는 " + url);
             Log.d("code","응답코드" + responseCode);
@@ -46,7 +66,7 @@ public class Server extends Thread {
             urlConnection.connect();
             StringBuffer response = new StringBuffer();
 
-            if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
+            if  (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String inputLine;
 
@@ -68,7 +88,7 @@ public class Server extends Thread {
 
           //  Log.d("TAG",result);
         } catch (ConnectException e) {
-            Log.e("TAG", "ConnectException ");
+            Log.e("TAG", "ConnectException "+ responseCode);
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,11 +99,12 @@ public class Server extends Thread {
     public ArrayList<Post> getPosts() throws JSONException {
         String page = "?page="+1;
 
-        String result = get("GET","/api/v1/posts"+page);
+        String result = get("GET","/api/v1/posts"+page,null);
 
         JSONObject main = new JSONObject(result);
 
         JSONArray bodyContent = main.getJSONObject("data").getJSONArray("content");
+
         ArrayList<Post> PostList = new ArrayList<>();
 
         Log.e("GETPOSTS",""+bodyContent);
@@ -92,6 +113,8 @@ public class Server extends Thread {
             Post post = new Post();
 
             JSONObject item = bodyContent.getJSONObject(i);
+            JSONObject User = item.getJSONObject("user");
+
             post.setId(item.getInt("id"));
             post.setTitle(item.getString("title"));
             post.setContent(item.getString("content"));
@@ -102,6 +125,10 @@ public class Server extends Thread {
             post.setStartLng(item.getDouble("startLng"));
             post.setCmtCnt(item.getInt("cmtCnt"));
             post.setRegDate(item.getString("regDate"));
+            post.setUid(User.getString("uid"));
+            post.setProfileUrl(User.getString("profileUrl"));
+
+
 
             if(item.has("endPoint")) {
                 post.setEndPoint(item.getString("endPoint"));
@@ -112,6 +139,9 @@ public class Server extends Thread {
             if(item.has("endLng")){
                 post.setEndLng(item.getDouble("endLng"));
             }
+
+
+
             PostList.add(post);
         }
 
@@ -130,19 +160,23 @@ public class Server extends Thread {
         double lng = 126.12634;
         String req = "?page="+ 1 + "&lat=" + lat + "&lng=" + lng;
 
-        String result = get("GET","/api/v1/posts/around"+req);
+        String result = get("GET","/api/v1/posts/around"+req,null);
 
         JSONObject main = new JSONObject(result);
 //        Log.e("getAround",""+main);
 
         JSONArray bodyContent = main.getJSONObject("data").getJSONArray("content");
+
         Log.e("GETAround",""+bodyContent);
 
         ArrayList<Post> AroundList = new ArrayList<>();
 
         for (int i = 0; i < bodyContent.length(); i++) {
             Post around = new Post();
+
             JSONObject item = bodyContent.getJSONObject(i);
+            JSONObject User = item.getJSONObject("user");
+
             around.setId(item.getInt("id"));
             around.setTitle(item.getString("title"));
             around.setContent(item.getString("content"));
@@ -163,19 +197,22 @@ public class Server extends Thread {
             if(item.has("endLng")){
                 around.setEndLng(item.getDouble("endLng"));
             }
+            around.setUid(User.getString("uid"));
+            around.setProfileUrl(User.getString("profileUrl"));
+
             AroundList.add(around);
         }
 
-//        for (int i = 0; i < AroundList.size(); i++) {
-//            Log.e("AroundList",""+AroundList.get(i));
-//
-//        }
+        for (int i = 0; i < AroundList.size(); i++) {
+            Log.e("AroundList",""+AroundList.get(i));
+
+        }
         return AroundList;
     }
 
     public ArrayList<Post> getSoon() throws JSONException{
         String date = "20210131";
-        String result = get("GET","/api/v1/posts/soon"+"?date="+date);
+        String result = get("GET","/api/v1/posts/soon?date="+date,null);
 
         JSONObject main = new JSONObject(result);
         //Log.e("SOON",""+main);
@@ -185,8 +222,12 @@ public class Server extends Thread {
         ArrayList<Post> SoonList = new ArrayList<>();
 
         for (int i = 0; i < bodyContent.length(); i++) {
+
             Post soon = new Post();
+
             JSONObject item = bodyContent.getJSONObject(i);
+            JSONObject User = item.getJSONObject("user");
+
             soon.setId(item.getInt("id"));
             soon.setTitle(item.getString("title"));
             soon.setContent(item.getString("content"));
@@ -208,28 +249,99 @@ public class Server extends Thread {
                 soon.setEndLng(item.getDouble("endLng"));
             }
 
+            soon.setUid(User.getString("uid"));
+            soon.setProfileUrl(User.getString("profileUrl"));
+
             SoonList.add(soon);
 
         }
 
         for (int i = 0; i < SoonList.size(); i++) {
-            Log.e("SOONLIST",""+SoonList.get(i));
+            Log.e("soonList",""+SoonList.get(i));
         }
         return SoonList;
     }
 
-    public String getDetail(String postId) throws JSONException {
-        String id = postId;
-        String result = get("GET", "/api/v1/posts/" + id);
+    public DetailPost getDetail(int postId) throws JSONException {
+        int id = postId;
+        String result = get("GET", "/api/v1/posts/" + id,null);
 
         JSONObject main = new JSONObject(result);
+
         JSONObject bodyContent = main.getJSONObject("data");
-        Log.e("GETDetail",""+bodyContent);
+        Log.e("DetailBodyContent",""+bodyContent);
 
-        String data = result;
-//            Log.e("DETAIL", "" + main);
+        DetailPost detailPost = new DetailPost();
 
-        return data;
+        detailPost.setId(bodyContent.getInt("id"));
+        detailPost.setTitle(bodyContent.getString("title"));
+        detailPost.setContent(bodyContent.getString("content"));
+        detailPost.setCruCnt(bodyContent.getInt("cruCnt"));
+        detailPost.setStartDate(bodyContent.getString("startDate"));
+        detailPost.setStartPoint(bodyContent.getString("startPoint"));
+        detailPost.setStartLat(bodyContent.getDouble("startLat"));
+        detailPost.setStartLng(bodyContent.getDouble("startLng"));
+
+        if(bodyContent.has("endPoint")){
+            detailPost.setEndPoint(bodyContent.getString("endPoint"));
         }
+        detailPost.setEndLat(bodyContent.getDouble("endLat"));
+        detailPost.setEndLng(bodyContent.getDouble("endLng"));
+        detailPost.setCmtCnt(bodyContent.getInt("cmtCnt"));
+        detailPost.setRegDate(bodyContent.getString("regDate"));
+
+        //User
+        JSONObject User = bodyContent.getJSONObject("user");
+        detailPost.setUid(User.getString("uid"));
+        detailPost.setProfileUrl(User.getString("profileUrl"));
+
+
+
+
+        //Comments
+
+        JSONArray Comments = bodyContent.getJSONArray("comments");
+        for (int i = 0; i < Comments.length(); i++) {
+
+            JSONObject CommentsItem = Comments.getJSONObject(i);
+            detailPost.setCmId(CommentsItem.getInt("id"));
+            detailPost.setCmContent(CommentsItem.getString("content"));
+            detailPost.setCmDepth(CommentsItem.getInt("depth"));
+            detailPost.setCmregDate(CommentsItem.getString("regDate"));
+
+            JSONObject cmUser =  CommentsItem.getJSONObject("user");
+
+            detailPost.setCmUid(cmUser.getString("id"));
+            detailPost.setCmprofilUrl(cmUser.getString("profileUrl"));
+        }
+
+
+
+        Log.e("DETAILPOST",""+detailPost);
+
+        return detailPost;
+        }
+
+
+    public String postWrite(Post post) throws JSONException {
+
+
+        JSONObject obj = new JSONObject();
+        obj.put("title",post.getTitle());
+        obj.put("content",post.getContent());
+        obj.put("cruCnt",post.getCurCnt());
+        obj.put("startDate",post.getStartDate());
+        obj.put("startPoint",post.getStartPoint());
+        obj.put("endPoint",post.getEndPoint());
+
+        Log.e("OBJ",""+ obj);
+
+        String writeResult = obj.toString();
+        Log.e("Write",""+writeResult);
+
+        get("POST","/api/v1/posts",writeResult);
+
+        return writeResult;
     }
+}
 

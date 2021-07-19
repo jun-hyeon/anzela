@@ -41,101 +41,20 @@
 
     </RelativeLayout>
 
-  <LinearLayout
-      android:visibility="gone"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-     >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp">
-
-        <TextView
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전체모임"
-            android:layout_marginTop="16dp"
-            android:textSize="24dp"
-            android:textColor="@color/white"
-            />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="80dp">
-
-        <TextView
-            android:id="@+id/allnoneText"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="아직 모집글이 없습니다.\n직접 글을 작성해보세요👍🏻"
-            android:textColor="@color/white"
-            android:textSize="16dp"/>
-
-
-    </RelativeLayout>
-
-      <RelativeLayout
-          android:layout_width="match_parent"
-          android:layout_height="48dp"
-          android:layout_marginTop="24dp"
-          android:layout_marginStart="24dp"
-          android:layout_marginEnd="24dp">
-
-          <TextView
-              android:layout_centerHorizontal="true"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:textColor="@color/white"
-              android:textSize="16dp"
-              android:gravity="center"
-              android:background="@drawable/renctangle_black"
-              android:text="모집글 작성하기"
-              />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@drawable/bg_scooter_illust" />
-    </RelativeLayout>
-  </LinearLayout>
-
-
-
 
 
 
     <ScrollView
-
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
        >
 
        <LinearLayout
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
+           android:layout_height="match_parent"
            android:layout_marginStart="24dp"
            android:layout_marginEnd="24dp"
            android:orientation="vertical">
-
 
 
         <TextView
@@ -150,90 +69,28 @@
             />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allRecycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone">
 
-
-
-
+           >
         </androidx.recyclerview.widget.RecyclerView>
 
-           <LinearLayout
-
-               xmlns:android="http://schemas.android.com/apk/res/android"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               xmlns:app="http://schemas.android.com/apk/res-auto"
-               android:orientation="vertical"
-               >
-               <RelativeLayout
-                   android:layout_marginTop="8dp"
-                   android:layout_marginBottom="8dp"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:background="@drawable/rentangle_list">
 
 
-                   <TextView
-                       android:id="@+id/list_Title"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginStart="15dp"
-                       android:layout_marginTop="12dp"
 
-                       android:text="목감천 라이딩해요"
-                       android:textColor="@color/white"
-                       android:textSize="16dp" />
-
-                   <TextView
-                       android:id="@+id/listCount"
-                       android:layout_marginStart="16dp"
-                       android:layout_below="@id/list_Title"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textSize="14dp"
-                       android:textColor="@color/very_light_pink"
-                       android:text="최대 4명"/>
-
-                   <View
-                       android:id="@+id/listView"
-                       android:layout_width="1dp"
-                       android:layout_height="14dp"
-                       android:layout_below="@id/list_Title"
-                       android:layout_marginStart="8dp"
-                       android:layout_marginTop="4dp"
-                       android:layout_toEndOf="@+id/listCount"
-                       android:background="@color/very_light_pink" />
-
-                   <TextView
-                       android:id="@+id/comingDate"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_below="@id/list_Title"
-                       android:layout_marginStart="7dp"
-                       android:layout_marginBottom="-3dp"
-                       android:layout_toEndOf="@id/listView"
-                       android:text="예정일"
-                       android:textColor="@color/very_light_pink"
-                       android:textSize="14dp" />
-
-                   <TextView
-                       android:layout_below="@id/list_Title"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginStart="6dp"
-                       android:layout_toEndOf="@id/comingDate"
-                       android:text="2021.01.31"
-                       android:textColor="@color/very_light_pink"
-                       android:textSize="14dp" />
-
-
-               </RelativeLayout>
-
-           </LinearLayout>
        </LinearLayout>
 
+
     </ScrollView>
+
+    <include
+        android:id="@+id/noList_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/no_list"
+        android:visibility="gone">
+
+    </include>
 
 </LinearLayout>

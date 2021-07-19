@@ -1,50 +1,46 @@
 package com.example.angela;
 
-
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.TimeLineViewHolder> {
     ArrayList<Post> arrayList;
-
-
-    public PostAdapter(ArrayList<Post> arrayList) {
+    public TimeLineAdapter(ArrayList<Post> arrayList) {
         this.arrayList = arrayList;
     }
 
     @NonNull
     @NotNull
     @Override
-    public PostAdapter.PostViewHolder
-    onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View itemView   = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_recycler,parent,false);
-        return new PostViewHolder(itemView);
+    public TimeLineAdapter.TimeLineViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.coming_list,parent,false);
+        return new TimeLineViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull PostAdapter.PostViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull TimeLineAdapter.TimeLineViewHolder holder, int position) {
         String title = arrayList.get(position).getTitle();
         int count = arrayList.get(position).getCurCnt();
         String date = arrayList.get(position).getStartDate();
-        holder.list_Title.setText(title);
+
+        holder.comingListTitle.setText(title);
         if(count == -1){
-            holder.listCount.setText("제한없음");
+            holder.comingListCount.setText("제한없음");
         }else{
-            holder.listCount.setText("최대 "+count+"명");
+            holder.comingListCount.setText("최대 "+count+"명");
         }
-        holder.setDate.setText(date.substring(0,date.indexOf(" ")));
+        holder.comingListDate.setText(date.substring(0,date.indexOf(" ")));
     }
 
     @Override
@@ -52,18 +48,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return arrayList.size();
     }
 
-    public class PostViewHolder extends RecyclerView.ViewHolder {
-        TextView list_Title;
-        TextView listCount;
-        TextView setDate;
+    public class TimeLineViewHolder extends RecyclerView.ViewHolder {
+        TextView comingListTitle;
+        TextView comingListCount;
+        TextView comingListDate;
 
-
-
-        public PostViewHolder(@NonNull @NotNull View itemView) {
+        public TimeLineViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            list_Title = itemView.findViewById(R.id.list_Title);
-            listCount = itemView.findViewById(R.id.listCount);
-            setDate = itemView.findViewById(R.id.setDate);
+           comingListTitle = (TextView)  itemView.findViewById(R.id.cominglistTitle);
+           comingListCount = (TextView) itemView.findViewById(R.id.cominglistCount);
+           comingListDate = (TextView) itemView.findViewById(R.id.comingDateText);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

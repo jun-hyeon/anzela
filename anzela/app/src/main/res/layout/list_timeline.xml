@@ -42,100 +42,10 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp">
-
-            <TextView
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="일정이 가까운 모임"
-                android:layout_marginTop="16dp"
-                android:textSize="24dp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:textColor="@color/brown_grey"
-                android:textSize="14dp"
-                android:layout_alignParentEnd="true"
-                android:text="2021년 02월 01일"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="80dp">
-
-            <TextView
-                android:id="@+id/allnoneText"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="아직 모집글이 없습니다.\n직접 글을 작성해보세요👍🏻"
-                android:textColor="@color/white"
-                android:textSize="16dp"/>
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp">
-
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:gravity="center"
-                android:background="@drawable/renctangle_black"
-                android:text="모집글 작성하기"
-                />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_alignParentBottom="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/bg_scooter_illust" />
-        </RelativeLayout>
-    </LinearLayout>
-
-
-
-
-
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
         >
 
         <LinearLayout
@@ -173,13 +83,21 @@
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/timelineRecycler"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
 
+               >
 
             </androidx.recyclerview.widget.RecyclerView>
+
         </LinearLayout>
 
-    </ScrollView>
+</ScrollView>
 
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/no_list"
+        android:visibility="gone"/>
 </LinearLayout>

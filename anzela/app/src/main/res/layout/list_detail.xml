@@ -29,6 +29,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scrollbars="none"
                 android:layout_weight="1"
 
                 >
@@ -52,7 +53,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:textColor="@color/white"
-                    android:text="같이 쿠팡이츠 배달하실 분"/>
+                    android:text="같이 쿠팡이츠 배달하실 분"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
 
@@ -69,7 +71,7 @@
                 android:layout_marginBottom="16dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/detailprofile"
+                android:id="@+id/userProfile"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/profile"
@@ -77,16 +79,18 @@
                 />
 
             <TextView
+                android:id="@+id/userId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/detailprofile"
+                android:layout_toEndOf="@id/userProfile"
                 android:text="강북멋쟁이"
                 android:textColor="@color/brown_grey"
                 android:textSize="12dp" />
 
             <TextView
+                android:id="@+id/regDate"
                 android:textColor="@color/brown_grey"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
@@ -98,7 +102,6 @@
             </RelativeLayout>
 
             <View
-
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/black"
@@ -125,7 +128,7 @@
                             android:textSize="14dp"/>
 
                         <TextView
-
+                            android:id="@+id/startDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -157,6 +160,7 @@
                             android:textSize="14dp"/>
 
                         <TextView
+                            android:id="@+id/cruCnt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -188,6 +192,7 @@
                             android:textSize="14dp"/>
 
                         <TextView
+                            android:id="@+id/startPoint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -220,6 +225,7 @@
                             android:textSize="14dp"/>
 
                         <TextView
+                            android:id="@+id/endPoint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -268,6 +274,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/content"
                             android:padding="16dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -285,6 +292,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/cmtCnt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="댓글 0개"
@@ -323,87 +331,12 @@
                             android:background="@drawable/circle_black"/>
                    </RelativeLayout>
                     <LinearLayout
-                        xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        xmlns:tools="http://schemas.android.com/tools"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="48dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/black"
-                            android:orientation="vertical">
-
-                            <RelativeLayout
-                                android:layout_marginTop="16dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/commentProfile"
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    android:layout_marginStart="16dp"
-                                    android:background="@drawable/circle_profile"/>
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_toEndOf="@id/commentProfile"
-                                    android:text="천왕동불주먹"
-                                    android:textSize="12dp"
-                                    android:textColor="@color/very_light_pink"
-                                    android:layout_centerVertical="true"
-                                    />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/very_light_pink"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_marginEnd="16dp"
-                                    android:layout_centerVertical="true"
-                                    android:textSize="12dp"
-                                    android:text="2021. 01. 31"/>
-
-                            </RelativeLayout>
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginBottom="16dp">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:text="엇!! 저도 목감천 자주 타러갑니다 ㅋㅋㅋ 신청할게요~"
-                                    android:textColor="@color/white"
-                                    android:textSize="14dp" />
-
-                            </RelativeLayout>
-
-
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-                    <LinearLayout
                         android:layout_marginBottom="48dp"
                         android:layout_marginTop="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:background="@color/black"
-                        android:visibility="gone">
+                        >
 
                         <TextView
                             android:layout_width="match_parent"
@@ -413,7 +346,6 @@
                             android:text="첫번째 댓글의 주인공이 되어보세요!"
                             android:textColor="@color/white"
                             />
-
 
 
                     </LinearLayout>
@@ -436,7 +368,8 @@
                 android:text="수정하기"
                 android:textColor="@color/white"
                 android:gravity="center"
-                android:textSize="16dp"/>
+                android:textSize="16dp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/leftBtn"
@@ -448,6 +381,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="16dp"
+                android:textStyle="bold"
                 />
 
         </LinearLayout>

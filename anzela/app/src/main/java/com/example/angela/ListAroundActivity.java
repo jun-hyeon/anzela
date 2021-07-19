@@ -5,6 +5,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -24,9 +27,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,8 +39,8 @@ public class ListAroundActivity extends AppCompatActivity {
 
     ImageView leftArrow;
     TextView aroundWrite;
-    TextView noneSetting;
     TextView setting;
+    RecyclerView aroundRecyclerview;
 
     private  GpsTracker gpsTracker;
 
@@ -49,15 +54,17 @@ public class ListAroundActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_around);
 
+        Server Around = new Server();
+
         leftArrow = (ImageView) findViewById(R.id.leftArrow);
         aroundWrite = (TextView) findViewById(R.id.aroundwrite);
-        noneSetting = (TextView) findViewById(R.id.nonesetting);
         setting = (TextView) findViewById(R.id.setting);
+        aroundRecyclerview = (RecyclerView) findViewById(R.id.aroundRecyclerView);
 
 
         SpannableString settingline = new SpannableString("설정하기");
         settingline.setSpan(new UnderlineSpan(), 0, settingline.length(), 0);
-        noneSetting.setText(settingline);
+
         setting.setText(settingline);
 
 
@@ -78,13 +85,7 @@ public class ListAroundActivity extends AppCompatActivity {
             }
         });
 
-        noneSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLocationSetting();
 
-            }
-        });
 
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +93,32 @@ public class ListAroundActivity extends AppCompatActivity {
                 onLocationSetting();
             }
         });
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    ArrayList<Post> AroundList = Around.getAround();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            PostAdapter postAdapter = new PostAdapter(AroundList);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                            aroundRecyclerview.setLayoutManager(layoutManager);
+                            aroundRecyclerview.setItemAnimator(new DefaultItemAnimator());
+                            aroundRecyclerview.setAdapter(postAdapter);
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        t1.start();
+
     }
 
 
@@ -106,10 +133,10 @@ public class ListAroundActivity extends AppCompatActivity {
         double longitude = gpsTracker.getLongitude();
 
         String address = getCurrentAddress(latitude,longitude);                                     //주소 가져오기
-        noneSetting.setText(address);
+
         setting.setText(address);
         setting.setTextColor(ContextCompat.getColor(ListAroundActivity.this,R.color.brown_grey));
-        noneSetting.setTextColor(ContextCompat.getColor(ListAroundActivity.this,R.color.brown_grey));
+
         //Toast.makeText(MainActivity.this,"위도 " + latitude + "\n경도 "+ longitude,Toast.LENGTH_LONG).show();
     }
 

@@ -1,6 +1,7 @@
 package com.example.angela;
 
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -21,9 +23,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class WriteInputActivity extends AppCompatActivity {
@@ -37,12 +43,16 @@ public class WriteInputActivity extends AppCompatActivity {
     View titleView, arrivalView, startView, infoView;
 
     boolean isComplete;
+    Post post;
+    int pcount = 0;
+    String calenderString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.write_input);
 
+        Server server = new Server();
 
 
         editDate = (TextView) findViewById(R.id.editDate);
@@ -73,7 +83,8 @@ public class WriteInputActivity extends AppCompatActivity {
         dialogNecessarry.setContentView(R.layout.dialog_necessarry);
 
 
-        SpannableString personcount = new SpannableString("총2명");
+
+        SpannableString personcount = new SpannableString("총 "+pcount+"명");
         personcount.setSpan(new UnderlineSpan(),0,personcount.length(),0);
         count.setText(personcount);
 
@@ -166,12 +177,37 @@ public class WriteInputActivity extends AppCompatActivity {
         completeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(isComplete){
-                   Toast.makeText(WriteInputActivity.this,"완료되었습니다.",Toast.LENGTH_LONG).show();
-               }else{
-                   showNecessarryDialog();
-               }
-            }
+
+                        if(isComplete){
+                            Thread t1 = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        post = new Post();
+                                        post.setTitle(titleWrite.getText().toString());
+                                        post.setStartDate(calenderString);
+
+                                        post.setCurCnt(pcount);
+                                        post.setStartPoint(startWrite.getText().toString());
+
+                                        post.setEndPoint(arrivalWrite.getText().toString());
+                                        if(cb.isChecked()){
+                                            post.setEndPoint(null);
+                                        }
+                                        post.setContent(infoWrite.getText().toString());
+                                        server.postWrite(post);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                            t1.start();
+                            onBackPressed();
+                        }else{
+                            showNecessarryDialog();
+                        }
+                    }
         });
 
         titleWrite.addTextChangedListener(new TextWatcher() {
@@ -240,15 +276,23 @@ public class WriteInputActivity extends AppCompatActivity {
             }
         });
 
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+
+
 
 
     }
 
     public void isAbled(){
         if((titleWrite.getText().toString().equals("") || titleWrite.getText().toString() == null) == false
-                &(startWrite.getText().toString().equals("") || startWrite.getText().toString() == null) == false
-                &((arrivalWrite.getText().toString().equals("") || arrivalWrite.getText().toString() == null) == false || cb.isChecked())
-                &(infoWrite.getText().toString().equals("") || infoWrite.getText().toString() == null ) == false){
+                &&(startWrite.getText().toString().equals("") || startWrite.getText().toString() == null) == false
+                &&((arrivalWrite.getText().toString().equals("") || arrivalWrite.getText().toString() == null) == false || cb.isChecked())
+                &&(infoWrite.getText().toString().equals("") || infoWrite.getText().toString() == null ) == false){
 
             completeBtn.setTextColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
             completeBtn.setBackground(ContextCompat.getDrawable(WriteInputActivity.this,R.drawable.rectangle_textwtire));
@@ -299,7 +343,6 @@ public class WriteInputActivity extends AppCompatActivity {
             TextView countDialogCancel = dialogCount.findViewById(R.id.countDialogCancel);
             TextView countDialogApply = dialogCount.findViewById(R.id.countDialogApply);
 
-            String ct = countEdit.getText().toString();
 
             countEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -322,9 +365,12 @@ public class WriteInputActivity extends AppCompatActivity {
         countDialogApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SpannableString countText = new SpannableString(countEdit.getText().toString()+"명");
+                SpannableString countText = new SpannableString("총 "+countEdit.getText().toString()+"명");
                 countText.setSpan(new UnderlineSpan(),0,countText.length(),0);
                 count.setText(countText);
+                String temp = countEdit.getText().toString();
+                pcount = Integer.parseInt(temp);
+                Log.e("pcount",""+pcount);
                 //count.setText(countEdit.getText().toString()+"");
                 dialogCount.dismiss();
             }
@@ -336,17 +382,23 @@ public class WriteInputActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
-        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(WriteInputActivity.this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
-            public void onDateSet(DatePicker view, int myear, int mmonth, int mdayOfMonth) {
-                String currentDateString = (myear+"년 "+(mmonth+1)+"월 "+mdayOfMonth+"일");
+            public void onDateSet(DatePicker view, int myear, int mmonth, int mday) {
+                c.set(myear,mmonth,mday);
+                SimpleDateFormat textDateformat = new SimpleDateFormat("yyyy년 MM월 dd일");
+                String currentDateString = textDateformat.format(c.getTime());
                 SpannableString dateUnderline = new SpannableString(currentDateString);
                 dateUnderline.setSpan(new UnderlineSpan(), 0, dateUnderline.length(), 0);
+                SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd000000");
+                calenderString = format.format(c.getTime());
+                Log.e("CALENDARSTRING",""+calenderString);
                 editDate.setText(dateUnderline);
+
             }
-        }, year, month,dayOfMonth);
+        }, year, month,day);
            datePickerDialog.show();
         }
 
@@ -360,9 +412,9 @@ public class WriteInputActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialogNecessarry.dismiss();
             }
+
         });
     }
-
 
 
 }
