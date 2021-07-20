@@ -27,11 +27,13 @@
 
             <ImageView
                 android:id="@+id/menu"
-                android:layout_marginStart="24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="393dp"
-                android:paddingVertical="24dp"
+                android:layout_alignParentStart="true"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:src="@drawable/ic_menu" />
 
             <ImageView
@@ -229,6 +231,7 @@
 
 
         <RelativeLayout
+            android:layout_marginBottom="72dp"
             android:layout_below="@id/nearRiding"
             android:layout_marginTop="24dp"
             android:layout_marginStart="24dp"

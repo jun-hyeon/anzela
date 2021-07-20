@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -20,6 +22,7 @@ public class ListAllActivity extends AppCompatActivity {
     ImageView leftArrow;
     TextView allWrite;
     RecyclerView allRecyclerView;
+    LinearLayout noList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,8 @@ public class ListAllActivity extends AppCompatActivity {
         allWrite = (TextView) findViewById(R.id.allWrite);
 
         allRecyclerView = (RecyclerView) findViewById(R.id.allRecycler);
+
+        noList = (LinearLayout) findViewById(R.id.noList_all);
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +67,13 @@ public class ListAllActivity extends AppCompatActivity {
                             allRecyclerView.setLayoutManager(layoutManager);
                             allRecyclerView.setItemAnimator(new DefaultItemAnimator());
                             allRecyclerView.setAdapter(allAdapter);
+                            if(allList.size() < 0){
+                                allRecyclerView.setVisibility(View.GONE);
+                                noList.setVisibility(View.VISIBLE);
+                            }else{
+                                allRecyclerView.setVisibility(View.VISIBLE);
+                                noList.setVisibility(View.GONE);
+                            }
                         }
                     });
                 } catch (JSONException e) {

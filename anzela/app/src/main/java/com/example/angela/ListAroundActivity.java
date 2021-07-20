@@ -24,6 +24,7 @@ import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class ListAroundActivity extends AppCompatActivity {
     TextView aroundWrite;
     TextView setting;
     RecyclerView aroundRecyclerview;
+    LinearLayout noList_around;
 
     private  GpsTracker gpsTracker;
 
@@ -60,6 +62,7 @@ public class ListAroundActivity extends AppCompatActivity {
         aroundWrite = (TextView) findViewById(R.id.aroundwrite);
         setting = (TextView) findViewById(R.id.setting);
         aroundRecyclerview = (RecyclerView) findViewById(R.id.aroundRecyclerView);
+        noList_around = (LinearLayout) findViewById(R.id.noList_around);
 
 
         SpannableString settingline = new SpannableString("설정하기");
@@ -95,12 +98,25 @@ public class ListAroundActivity extends AppCompatActivity {
             }
         });
 
+        if(checkLocationServicesStatus()){
+            gpsTracker = new GpsTracker(ListAroundActivity.this);
+            double latitude = gpsTracker.getLatitude();                                                 //위도 경도 설정
+            double longitude = gpsTracker.getLongitude();
+
+            String address = getCurrentAddress(latitude,longitude);                                     //주소 가져오기
+            setting.setText(address);
+            setting.setTextColor(ContextCompat.getColor(ListAroundActivity.this,R.color.brown_grey));
+        }
+
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
 
                 try {
-                    ArrayList<Post> AroundList = Around.getAround();
+
+                    double lat = gpsTracker.getLatitude();
+                    double lon = gpsTracker.getLongitude();
+                    ArrayList<Post> AroundList = Around.getAround(lat, lon);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -109,6 +125,13 @@ public class ListAroundActivity extends AppCompatActivity {
                             aroundRecyclerview.setLayoutManager(layoutManager);
                             aroundRecyclerview.setItemAnimator(new DefaultItemAnimator());
                             aroundRecyclerview.setAdapter(postAdapter);
+                            if(AroundList.size() < 0){
+                                aroundRecyclerview.setVisibility(View.GONE);
+                                noList_around.setVisibility(View.VISIBLE);
+                            }else{
+                                aroundRecyclerview.setVisibility(View.VISIBLE);
+                                noList_around.setVisibility(View.GONE);
+                            }
                         }
                     });
 

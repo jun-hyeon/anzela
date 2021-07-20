@@ -36,13 +36,11 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
     TextView detailTitle,content,cruCnt,startDate,startPoint,endPoint,cmtCnt,regDate,deleteBtn;
     CircleImageView userProfile;
     TextView userId;
-    TextView cmId,cmContent,depth,cmRegDate,cmUserId;
     TextView rightBtn,leftBtn;
     Post detailPost;
     double startLat, startLng, endLat, endLng;
-    String profileUrl, cmProfileUrl;
+    String profileUrl;
     int detailId;
-    Thread t1;
     Intent intent;
     ArrayList<Comment> comments;
     RecyclerView commentsRecyclerView;
@@ -117,21 +115,28 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                     detailTitle.setText(detailPost.getTitle());
                     userId.setText(detailPost.getUser().getUid());
                     content.setText(detailPost.getContent());
-                    cruCnt.setText("최대 "+detailPost.getCurCnt()+"명");
-                    profileUrl = detailPost.getUser().getProfileUrl();
 
+                    if(detailPost.getCurCnt() < 0){
+                        cruCnt.setText("제한없음");
+                    }else{
+                    cruCnt.setText("최대 "+detailPost.getCurCnt()+"명");
+                    }
+
+                    profileUrl = detailPost.getUser().getProfileUrl();
                     startDate.setText(detailPost.getStartDate().substring(0,detailPost.getStartDate().indexOf(" ")));
                     startPoint.setText(detailPost.getStartPoint());
                     endPoint.setText(detailPost.getEndPoint());
+
                     if(detailPost.getEndPoint().equals(null)){
                         endPoint.setText("정해지지 않았습니다.");
                     }
+
                     startLat = detailPost.getStartLat();
                     startLng = detailPost.getStartLng();
                     endLat = detailPost.getEndLat();
                     endLng = detailPost.getEndLng();
-                    cmtCnt.setText("댓글 "+detailPost.getCmtCnt()+"개");
                     regDate.setText(detailPost.getRegDate());
+                    cmtCnt.setText("댓글 "+detailPost.getCmtCnt()+"개");
 
                     comments = detailPost.getComments();
                     CommentsAdapter commentsAdapter = new CommentsAdapter(comments);
@@ -196,9 +201,19 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                         try {
                             String content = comment_editText.getText().toString();
                             server.postComment(detailId,content);
+
+
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+
+                                    comments = detailPost.getComments();
+                                    CommentsAdapter commentsAdapter2 = new CommentsAdapter(comments);
+                                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                                    commentsRecyclerView.setLayoutManager(layoutManager);
+                                    commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                                    commentsRecyclerView.setAdapter(commentsAdapter2);
+
                                     comment_editText.setText(" ");
                                     comment_editText.clearFocus();
                                 }
@@ -210,8 +225,6 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                 }).start();
             }
         });
-
-
     }
 
     @Override

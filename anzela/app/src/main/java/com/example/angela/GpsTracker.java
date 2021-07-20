@@ -30,6 +30,7 @@ public class GpsTracker implements LocationListener {
 
 
 
+
     public Location getLocation() {
         try {
             locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE); //로케이션 서비스를 이용하는

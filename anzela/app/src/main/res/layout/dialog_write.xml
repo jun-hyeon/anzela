@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14dp"
+        android:maxLines="1"
         android:textColor="@color/black_five"
         android:text="글 등록을 그만할까요?"/>
     <TextView

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
-//    Thread t1,t2,t3,t4,t5;
+
 
     String [] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}; //퍼미션을 배열로 저장
 
@@ -103,13 +103,25 @@ public class MainActivity extends AppCompatActivity {
         timelineLinear = (LinearLayout) findViewById(R.id.timeLineLinear);
         mainUserprofile = (CircleImageView) findViewById(R.id.mainUserprofile);
 
+        if(checkLocationServicesStatus()){
+            gpsTracker = new GpsTracker(MainActivity.this);
+            double latitude = gpsTracker.getLatitude();                                                 //위도 경도 설정
+            double longitude = gpsTracker.getLongitude();
+
+            String address = getCurrentAddress(latitude,longitude);                                     //주소 가져오기
+            locationText.setText(address);
+        }
+
 
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                   ArrayList<Post> postList = server.getAround();
+                    double lat = gpsTracker.getLatitude();
+                    double lon = gpsTracker.getLongitude();
+                    Log.e("LatLon"," "+lat +" "+lon);
+                    ArrayList<Post> postList = server.getAround(lat,lon);
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -140,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             weatherCondition.setText(weather.getSky_value());
                             weatherTemp.setText(weather.getTemp_value()+"°");
-
                         }
                     });
                 } catch (IOException e) {
@@ -150,21 +161,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
-
-
-
-
-
-//        t3 = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                      server.getDetail("1");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }); t3.start();
 
         new Thread(new Runnable() {
             @Override
@@ -246,7 +242,8 @@ public class MainActivity extends AppCompatActivity {
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            Intent goAllList = new Intent(MainActivity.this,ListAllActivity.class);
+            startActivity(goAllList);
 
             }
         });
@@ -340,7 +337,6 @@ public class MainActivity extends AppCompatActivity {
                 // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);  //퍼미션 요청
-
 
             } else {
                 // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
@@ -487,7 +483,5 @@ public class MainActivity extends AppCompatActivity {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
-
-
 }
 

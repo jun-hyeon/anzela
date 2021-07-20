@@ -62,7 +62,7 @@ public class WriteInputActivity extends AppCompatActivity {
         write_close = (ImageView) findViewById(R.id.write_close);
         count = (TextView) findViewById(R.id.count);
         cb = (CheckBox) findViewById(R.id.cb);
-        cbText = (TextView) findViewById(R.id.checkboxText);
+//        cbText = (TextView) findViewById(R.id.checkboxText);
         titleWrite = (EditText) findViewById(R.id.titleWrite);
         arrivalWrite = (EditText ) findViewById(R.id.arrivalWrite);
         startWrite = (EditText) findViewById(R.id.startWrite);
@@ -117,11 +117,11 @@ public class WriteInputActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(cb.isChecked()){
-                    cbText.setTextColor(getResources().getColor(R.color.white));
+                    cb.setTextColor(getResources().getColor(R.color.white));
                     arrivalView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
                     clearFocus();
                 }else{
-                    cbText.setTextColor(getResources().getColor(R.color.dark_grey));
+                    cb.setTextColor(getResources().getColor(R.color.dark_grey));
                     arrivalView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.dark_grey));
                 }
             }

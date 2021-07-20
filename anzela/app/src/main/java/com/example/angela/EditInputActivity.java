@@ -60,7 +60,7 @@ public class EditInputActivity extends AppCompatActivity {
         write_close = (ImageView) findViewById(R.id.write_close);
         count = (TextView) findViewById(R.id.count);
         cb = (CheckBox) findViewById(R.id.cb);
-        cbText = (TextView) findViewById(R.id.checkboxText);
+//        cbText = (TextView) findViewById(R.id.checkboxText);
         titleWrite = (EditText) findViewById(R.id.titleWrite);
         arrivalWrite = (EditText ) findViewById(R.id.arrivalWrite);
         startWrite = (EditText) findViewById(R.id.startWrite);

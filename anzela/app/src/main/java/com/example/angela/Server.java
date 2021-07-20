@@ -2,6 +2,8 @@ package com.example.angela;
 
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -15,10 +17,13 @@ import java.lang.reflect.Array;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
-public class Server extends Thread {
+public class Server extends Thread{
 
 
 
@@ -156,9 +161,8 @@ public class Server extends Thread {
 
 
 
-    public ArrayList<Post> getAround() throws JSONException {
-        double lat = 37.123;
-        double lng = 126.12634;
+    public ArrayList<Post> getAround(double lat, double lng) throws JSONException {
+
         String req = "?page="+ 1 + "&lat=" + lat + "&lng=" + lng;
 
         String result = get("GET",false,"/api/v1/posts/around"+req,null);
@@ -212,8 +216,11 @@ public class Server extends Thread {
     }
 
     public ArrayList<Post> getSoon() throws JSONException{
-        String date = "20210131";
-        String result = get("GET",false,"/api/v1/posts/soon?date="+date,null);
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        Date date = new Date();
+
+        String strdate = dateFormat.format(date);
+        String result = get("GET",false,"/api/v1/posts/soon?date="+strdate,null);
 
         JSONObject main = new JSONObject(result);
         //Log.e("SOON",""+main);
@@ -398,7 +405,6 @@ public class Server extends Thread {
     }
 
     public void postDelete(int deleteId){
-
 
         get("DELETE",false,"/api/v1/posts/"+deleteId,null);
 

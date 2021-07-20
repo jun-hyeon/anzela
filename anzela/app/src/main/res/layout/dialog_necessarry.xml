@@ -1,36 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+    android:background="@drawable/dialog_rectangle">
 
-      <TextView
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="필수 정보를 입력해주세요."
-            android:textColor="@color/black_five"
-            android:textSize="16dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginBottom="48dp"
-            />
-
-
+    <LinearLayout
+        android:paddingStart="56dp"
+        android:paddingEnd="56dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:background="@color/aqua_marine"
-            android:id="@+id/okayBtn"
+            android:id="@+id/info1"
+            android:layout_marginTop="46dp"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="확인"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:textColor="@color/white"
-            android:textSize="16dp"
-            android:textStyle="bold"/>
+            android:textSize="14dp"
+            android:maxLines="1"
+            android:textColor="@color/black_five"
+            android:text="필수 정보를 입력해주세요."/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp">
+
+
+
+
+            <TextView
+                android:id="@+id/okayBtn"
+                android:layout_weight="5"
+                android:background="@color/aqua_marine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="확인"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                />
+
+
+
+    </LinearLayout>
+
 
 
 

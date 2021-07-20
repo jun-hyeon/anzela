@@ -335,6 +335,7 @@
                             android:textColorHint="@color/very_light_pink"
                             android:textColor="@color/white"
                             android:textSize="14dp"
+                            android:maxLines="1"
                             android:background="@null"/>
 
                         <ImageView
@@ -375,6 +376,7 @@
                         android:id="@+id/commentsRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="48dp"
                         />
 
                 </LinearLayout>
