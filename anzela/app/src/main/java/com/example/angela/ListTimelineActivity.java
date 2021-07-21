@@ -66,7 +66,7 @@ public class ListTimelineActivity extends AppCompatActivity {
                             timeLineRecyclerView.setLayoutManager(layoutManager);
                             timeLineRecyclerView.setItemAnimator(new DefaultItemAnimator());
                             timeLineRecyclerView.setAdapter(postAdapter);
-                            if(timelineList.size() < 0){
+                            if(timelineList.size() == 0){
                                 timeLineRecyclerView.setVisibility(View.GONE);
                                 noList_timeline.setVisibility(View.VISIBLE);
                             }else{
@@ -96,5 +96,39 @@ public class ListTimelineActivity extends AppCompatActivity {
                 startActivity(goWrite);
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Server server = new Server();
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ArrayList<Post> timelineList = server.getSoon();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            PostAdapter postAdapter = new PostAdapter(timelineList);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                            timeLineRecyclerView.setLayoutManager(layoutManager);
+                            timeLineRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                            timeLineRecyclerView.setAdapter(postAdapter);
+                            if(timelineList.size() == 0){
+                                timeLineRecyclerView.setVisibility(View.GONE);
+                                noList_timeline.setVisibility(View.VISIBLE);
+                            }else{
+                                timeLineRecyclerView.setVisibility(View.VISIBLE);
+                                noList_timeline.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
     }
 }

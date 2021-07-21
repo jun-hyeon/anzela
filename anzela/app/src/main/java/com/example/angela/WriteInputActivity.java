@@ -1,11 +1,8 @@
 package com.example.angela;
 
-
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,15 +19,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class WriteInputActivity extends AppCompatActivity {
@@ -42,7 +33,6 @@ public class WriteInputActivity extends AppCompatActivity {
     ImageView write_close;
     EditText titleWrite,arrivalWrite,startWrite,infoWrite;
     View titleView, arrivalView, startView, infoView;
-
     boolean isComplete;
     Post post;
     int pcount = 0;
@@ -120,6 +110,7 @@ public class WriteInputActivity extends AppCompatActivity {
                     cb.setTextColor(getResources().getColor(R.color.white));
                     arrivalView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.aqua_marine));
                     clearFocus();
+
                 }else{
                     cb.setTextColor(getResources().getColor(R.color.dark_grey));
                     arrivalView.setBackgroundColor(ContextCompat.getColor(WriteInputActivity.this,R.color.dark_grey));
@@ -193,7 +184,7 @@ public class WriteInputActivity extends AppCompatActivity {
                                         post.setStartPoint(startWrite.getText().toString());
                                         post.setEndPoint(arrivalWrite.getText().toString());
                                         if(cb.isChecked()){
-                                            post.setEndPoint(null);
+                                            post.setEndPoint("정해지지 않았습니다.");
                                         }
 
                                         post.setContent(infoWrite.getText().toString());

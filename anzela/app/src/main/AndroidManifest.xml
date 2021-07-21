@@ -11,11 +11,11 @@
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
+        android:label="ChoiJunhyeon"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Angela">
+        android:theme="@style/Theme.Angela.NoActionBar">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC7jFvoahtnkg_8zHEmGwyCb-qowPirERE"/>

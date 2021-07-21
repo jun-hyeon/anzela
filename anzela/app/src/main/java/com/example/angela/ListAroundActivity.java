@@ -125,7 +125,7 @@ public class ListAroundActivity extends AppCompatActivity {
                             aroundRecyclerview.setLayoutManager(layoutManager);
                             aroundRecyclerview.setItemAnimator(new DefaultItemAnimator());
                             aroundRecyclerview.setAdapter(postAdapter);
-                            if(AroundList.size() < 0){
+                            if(AroundList.size() == 0){
                                 aroundRecyclerview.setVisibility(View.GONE);
                                 noList_around.setVisibility(View.VISIBLE);
                             }else{
@@ -266,18 +266,18 @@ public class ListAroundActivity extends AppCompatActivity {
                     5); //7
         } catch (IOException ioException) {                                                         //에러가 났을 경우 예외처리
             //네트워크 문제
-            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
             return"지오코더 서비스 사용불가";
             //GPS 좌표문제
         } catch (IllegalArgumentException illegalArgumentException) {
-            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
             return "잘못된 GPS 좌표";
 
         }
         //주소문제
         if (addresses == null || addresses.size() == 0) {
-            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
-            return "주소 미발견";
+//            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
+            return "설정하기";
         }
 
         Address address = addresses.get(0);
@@ -381,5 +381,47 @@ public class ListAroundActivity extends AppCompatActivity {
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        Server Around = new Server();
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+                    double lat = gpsTracker.getLatitude();
+                    double lon = gpsTracker.getLongitude();
+                    ArrayList<Post> AroundList = Around.getAround(lat, lon);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            PostAdapter postAdapter = new PostAdapter(AroundList);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                            aroundRecyclerview.setLayoutManager(layoutManager);
+                            aroundRecyclerview.setItemAnimator(new DefaultItemAnimator());
+                            aroundRecyclerview.setAdapter(postAdapter);
+                            if(AroundList.size() == 0){
+                                aroundRecyclerview.setVisibility(View.GONE);
+                                noList_around.setVisibility(View.VISIBLE);
+                            }else{
+                                aroundRecyclerview.setVisibility(View.VISIBLE);
+                                noList_around.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        t1.start();
+
     }
 }

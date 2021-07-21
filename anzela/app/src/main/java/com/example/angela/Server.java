@@ -102,10 +102,10 @@ public class Server extends Thread{
         return result;
     }
 
-    public ArrayList<Post> getPosts() throws JSONException {
-        String page = "?page="+1;
+    public ArrayList<Post> getPosts(int page) throws JSONException {
 
-        String result = get("GET",false,"/api/v1/posts"+page,null);
+
+        String result = get("GET",false,"/api/v1/posts?page="+page,null);
 
         JSONObject main = new JSONObject(result);
 

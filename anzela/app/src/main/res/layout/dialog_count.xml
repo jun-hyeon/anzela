@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:hint="모집인원(최소 1명)"
             android:textColorHint="@color/dark_grey"
+            android:textColor="@color/black_five"
             android:inputType="number"
             />
 

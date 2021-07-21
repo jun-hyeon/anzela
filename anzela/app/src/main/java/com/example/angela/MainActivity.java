@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                         timelineRinding.setLayoutManager(layoutManager);
                         timelineRinding.setItemAnimator(new DefaultItemAnimator());
                         timelineRinding.setAdapter(timeLineAdapter);
+                        timeLineAdapter.notifyDataSetChanged();
                         }
                     });
                 } catch (JSONException e) {
@@ -365,18 +366,18 @@ public class MainActivity extends AppCompatActivity {
                     5); //7
         } catch (IOException ioException) {                                                         //에러가 났을 경우 예외처리
             //네트워크 문제
-            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
             return "지오코더 서비스 사용불가";
             //GPS 좌표문제
         } catch (IllegalArgumentException illegalArgumentException) {
-            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
             return "잘못된 GPS 좌표";
 
         }
             //주소문제
         if (addresses == null || addresses.size() == 0) {
-            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
-            return "주소 미발견";
+//            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
+            return "설정하기";
         }
 
         Address address = addresses.get(0);
@@ -483,5 +484,57 @@ public class MainActivity extends AppCompatActivity {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Weather weather = new Weather();
+
+        Server server = new Server();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    weather.func();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            weatherCondition.setText(weather.getSky_value());
+                            weatherTemp.setText(weather.getTemp_value()+"°");
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ArrayList<Post> soonList =  server.getSoon();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TimeLineAdapter timeLineAdapter = new TimeLineAdapter(soonList);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                            timelineRinding.setLayoutManager(layoutManager);
+                            timelineRinding.setItemAnimator(new DefaultItemAnimator());
+                            timelineRinding.setAdapter(timeLineAdapter);
+                            timeLineAdapter.notifyDataSetChanged();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
 }
 

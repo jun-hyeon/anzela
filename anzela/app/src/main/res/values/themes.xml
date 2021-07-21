@@ -23,4 +23,5 @@
     <style name="Theme.Angela.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Angela.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

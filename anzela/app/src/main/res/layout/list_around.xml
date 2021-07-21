@@ -45,14 +45,15 @@
 
     </RelativeLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/aroundList_scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
         >
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -60,6 +61,7 @@
             android:orientation="vertical">
 
           <RelativeLayout
+              android:id="@+id/aroundTitle"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
@@ -96,18 +98,19 @@
           </RelativeLayout>
 
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/aroundRecyclerView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-               >
+                android:layout_below="@+id/aroundTitle"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
-        </LinearLayout>
+        </RelativeLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/noList_around"

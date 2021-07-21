@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -112,42 +110,43 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
 
                 try {
                     detailPost = server.getDetail(detailId);
-                    detailTitle.setText(detailPost.getTitle());
-                    userId.setText(detailPost.getUser().getUid());
-                    content.setText(detailPost.getContent());
-
-                    if(detailPost.getCurCnt() < 0){
-                        cruCnt.setText("제한없음");
-                    }else{
-                    cruCnt.setText("최대 "+detailPost.getCurCnt()+"명");
-                    }
-
-                    profileUrl = detailPost.getUser().getProfileUrl();
-                    startDate.setText(detailPost.getStartDate().substring(0,detailPost.getStartDate().indexOf(" ")));
-                    startPoint.setText(detailPost.getStartPoint());
-                    endPoint.setText(detailPost.getEndPoint());
-
-                    if(detailPost.getEndPoint().equals(null)){
-                        endPoint.setText("정해지지 않았습니다.");
-                    }
-
-                    startLat = detailPost.getStartLat();
-                    startLng = detailPost.getStartLng();
-                    endLat = detailPost.getEndLat();
-                    endLng = detailPost.getEndLng();
-                    regDate.setText(detailPost.getRegDate());
-                    cmtCnt.setText("댓글 "+detailPost.getCmtCnt()+"개");
-
-                    comments = detailPost.getComments();
-                    CommentsAdapter commentsAdapter = new CommentsAdapter(comments);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                    commentsRecyclerView.setLayoutManager(layoutManager);
-                    commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                    commentsRecyclerView.setAdapter(commentsAdapter);
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            detailTitle.setText(detailPost.getTitle());
+                            userId.setText(detailPost.getUser().getUid());
+                            content.setText(detailPost.getContent());
+
+                            if(detailPost.getCurCnt() < 0){
+                                cruCnt.setText("제한없음");
+                            }else{
+                                cruCnt.setText("최대 "+detailPost.getCurCnt()+"명");
+                            }
+
+                            profileUrl = detailPost.getUser().getProfileUrl();
+                            startDate.setText(detailPost.getStartDate().substring(0,detailPost.getStartDate().indexOf(" ")));
+                            startPoint.setText(detailPost.getStartPoint());
+                            if(detailPost.getEndPoint().equals("정해지지 않았습니다.")){
+                            endPoint.setTextColor(ContextCompat.getColor(ListDetailActivity.this,R.color.very_light_pink));
+                            }
+                            endPoint.setText(detailPost.getEndPoint());
+
+                            startLat = detailPost.getStartLat();
+                            startLng = detailPost.getStartLng();
+                            endLat = detailPost.getEndLat();
+                            endLng = detailPost.getEndLng();
+                            regDate.setText(detailPost.getRegDate());
+                            cmtCnt.setText("댓글 "+detailPost.getCmtCnt()+"개");
+
+
+                            comments = detailPost.getComments();
+                            CommentsAdapter commentsAdapter = new CommentsAdapter(comments);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                            commentsRecyclerView.setLayoutManager(layoutManager);
+                            commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                            commentsRecyclerView.setAdapter(commentsAdapter);
+
                             if (comments.size() == 0){
                                 addComments.setVisibility(View.VISIBLE);
                                 commentsRecyclerView.setVisibility(View.GONE);
@@ -155,6 +154,8 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                                 commentsRecyclerView.setVisibility(View.VISIBLE);
                                 addComments.setVisibility(View.GONE);
                             }
+
+
                             Glide.with(ListDetailActivity.this).load(profileUrl).into(userProfile);
                         }
                     });
@@ -206,16 +207,7 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-
-                                    comments = detailPost.getComments();
-                                    CommentsAdapter commentsAdapter2 = new CommentsAdapter(comments);
-                                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                                    commentsRecyclerView.setLayoutManager(layoutManager);
-                                    commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                                    commentsRecyclerView.setAdapter(commentsAdapter2);
-
                                     comment_editText.setText(" ");
-                                    comment_editText.clearFocus();
                                 }
                             });
                         } catch (JSONException e) {
