@@ -18,6 +18,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         this.arrayList = arrayList;
     }
 
+    public void setArrayList(ArrayList<Comment> arrayList) {
+        this.arrayList = arrayList;
+    }
+
     @NonNull
     @NotNull
     @Override

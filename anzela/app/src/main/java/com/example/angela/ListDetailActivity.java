@@ -43,6 +43,8 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
     ArrayList<Comment> comments;
     RecyclerView commentsRecyclerView;
     LinearLayout addComments;
+    CommentsAdapter commentsAdapter;
+    RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,8 +143,8 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
 
 
                             comments = detailPost.getComments();
-                            CommentsAdapter commentsAdapter = new CommentsAdapter(comments);
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                            commentsAdapter = new CommentsAdapter(comments);
+                            layoutManager = new LinearLayoutManager(getApplicationContext());
                             commentsRecyclerView.setLayoutManager(layoutManager);
                             commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
                             commentsRecyclerView.setAdapter(commentsAdapter);
@@ -204,10 +206,21 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                             server.postComment(detailId,content);
 
 
+                            detailPost = server.getDetail(detailId);
+                            comments = detailPost.getComments();
+                            commentsAdapter.setArrayList(comments);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    commentsAdapter.notifyDataSetChanged();
                                     comment_editText.setText(" ");
+                                    if (comments.size() == 0){
+                                        addComments.setVisibility(View.VISIBLE);
+                                        commentsRecyclerView.setVisibility(View.GONE);
+                                    }else{
+                                        commentsRecyclerView.setVisibility(View.VISIBLE);
+                                        addComments.setVisibility(View.GONE);
+                                    }
                                 }
                             });
                         } catch (JSONException e) {

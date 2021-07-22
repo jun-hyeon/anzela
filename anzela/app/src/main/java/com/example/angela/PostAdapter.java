@@ -20,6 +20,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         this.arrayList = arrayList;
     }
 
+    public void setArrayList(ArrayList<Post> arrayList) {
+        this.arrayList = arrayList;
+    }
+
     @NonNull
     @NotNull
     @Override

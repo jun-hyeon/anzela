@@ -534,6 +534,33 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    double lat = gpsTracker.getLatitude();
+                    double lon = gpsTracker.getLongitude();
+                    Log.e("LatLon"," "+lat +" "+lon);
+                    ArrayList<Post> postList = server.getAround(lat,lon);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            PostAdapter postAdapter = new PostAdapter(postList);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                            aroundRiding.setLayoutManager(layoutManager);
+                            aroundRiding.setItemAnimator(new DefaultItemAnimator());
+                            aroundRiding.setAdapter(postAdapter);
+                        }
+                    });
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
 }
