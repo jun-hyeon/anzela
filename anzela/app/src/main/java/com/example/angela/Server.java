@@ -296,9 +296,12 @@ public class Server extends Thread{
         if(bodyContent.has("endPoint")){
             post.setEndPoint(bodyContent.getString("endPoint"));
         }
-
-        post.setEndLat(bodyContent.getDouble("endLat"));
+        if(bodyContent.has("endLat")){
+            post.setEndLat(bodyContent.getDouble("endLat"));
+        }
+        if(bodyContent.has("endLng")){
         post.setEndLng(bodyContent.getDouble("endLng"));
+        }
         post.setCmtCnt(bodyContent.getInt("cmtCnt"));
         post.setRegDate(bodyContent.getString("regDate"));
 

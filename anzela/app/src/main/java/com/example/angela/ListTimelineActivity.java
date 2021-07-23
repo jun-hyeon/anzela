@@ -151,12 +151,13 @@ public class ListTimelineActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ArrayList<Post> timelineList = server.getSoon(1);
+                     timelineList.clear();
+                     timelineList.addAll(server.getSoon(1));
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-                            if(timelineList.size() == 0){
+                             if(timelineList.size() == 0){
                                 timeLineRecyclerView.setVisibility(View.GONE);
                                 noList_timeline.setVisibility(View.VISIBLE);
                             }else{

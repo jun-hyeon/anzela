@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,13 +32,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ListDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    ImageView leftArrow,message;
+    ImageView leftArrow, message;
     GoogleMap googleMap;
     EditText comment_editText;
-    TextView detailTitle,content,cruCnt,startDate,startPoint,endPoint,cmtCnt,regDate,deleteBtn;
+    TextView detailTitle, content, cruCnt, startDate, startPoint, endPoint, cmtCnt, regDate, deleteBtn;
     CircleImageView userProfile;
     TextView userId;
-    TextView rightBtn,leftBtn;
+    TextView rightBtn, leftBtn;
     Post detailPost;
     double startLat, startLng, endLat, endLng;
     String profileUrl;
@@ -55,12 +58,9 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
 
         Server server = new Server();
         intent = getIntent();
-        detailId = intent.getIntExtra("id",0);
-        Log.e("DETAILID",""+detailId);
+        detailId = intent.getIntExtra("id", 0);
+        Log.e("DETAILID", "" + detailId);
 
-
-        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.googleMap);
-        mapFragment.getMapAsync(this);
 
         leftArrow = (ImageView) findViewById(R.id.leftArrow);
         message = (ImageView) findViewById(R.id.message);
@@ -79,31 +79,27 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
         cmtCnt = (TextView) findViewById(R.id.cmtCnt);
         regDate = (TextView) findViewById(R.id.regDate);
         deleteBtn = (TextView) findViewById(R.id.deleteBtn);
-        detailList_scrollView = (NestedScrollView) findViewById(R.id.detailList_scrollView);
+
 
         userProfile = (CircleImageView) findViewById(R.id.userProfile);
 
         commentsRecyclerView = (RecyclerView) findViewById(R.id.commentsRecyclerView);
 
         addComments = (LinearLayout) findViewById(R.id.addComments);
+        detailList_scrollView = (NestedScrollView) findViewById(R.id.detailList_scrollView);
 
-        leftArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
+//         SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.googleMap);
+//         mapFragment.getMapAsync(this);
 
 
         comment_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    message.setBackground(ContextCompat.getDrawable(ListDetailActivity.this,R.drawable.circle_black));
+                if (!hasFocus) {
+                    message.setBackground(ContextCompat.getDrawable(ListDetailActivity.this, R.drawable.circle_black));
                     message.setImageResource(R.drawable.ic_comment_mint);
-                }else{
-                    message.setBackground(ContextCompat.getDrawable(ListDetailActivity.this,R.drawable.circle_aqua_marine));
+                } else {
+                    message.setBackground(ContextCompat.getDrawable(ListDetailActivity.this, R.drawable.circle_aqua_marine));
                     message.setImageResource(R.drawable.ic_comment_white);
                 }
             }
@@ -123,17 +119,18 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                             userId.setText(detailPost.getUser().getUid());
                             content.setText(detailPost.getContent());
 
-                            if(detailPost.getCurCnt() < 0){
+                            if (detailPost.getCurCnt() < 0) {
                                 cruCnt.setText("제한없음");
-                            }else{
-                                cruCnt.setText("최대 "+detailPost.getCurCnt()+"명");
+                            } else {
+                                cruCnt.setText("최대 " + detailPost.getCurCnt() + "명");
                             }
 
                             profileUrl = detailPost.getUser().getProfileUrl();
-                            startDate.setText(detailPost.getStartDate().substring(0,detailPost.getStartDate().indexOf(" ")));
+                            startDate.setText(detailPost.getStartDate().substring(0, detailPost.getStartDate().indexOf(" ")));
                             startPoint.setText(detailPost.getStartPoint());
-                            if(detailPost.getEndPoint().equals("정해지지 않았습니다.")){
-                            endPoint.setTextColor(ContextCompat.getColor(ListDetailActivity.this,R.color.very_light_pink));
+
+                            if (detailPost.getEndPoint().equals("정해지지 않았습니다.") || detailPost.getEndPoint().equals(" ") || detailPost.getEndPoint().equals(null)) {
+                                endPoint.setTextColor(ContextCompat.getColor(ListDetailActivity.this, R.color.very_light_pink));
                             }
                             endPoint.setText(detailPost.getEndPoint());
 
@@ -142,7 +139,7 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                             endLat = detailPost.getEndLat();
                             endLng = detailPost.getEndLng();
                             regDate.setText(detailPost.getRegDate());
-                            cmtCnt.setText("댓글 "+detailPost.getCmtCnt()+"개");
+                            cmtCnt.setText("댓글 " + detailPost.getCmtCnt() + "개");
 
 
                             comments = detailPost.getComments();
@@ -152,10 +149,10 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                             commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
                             commentsRecyclerView.setAdapter(commentsAdapter);
 
-                            if (comments.size() == 0){
+                            if (comments.size() == 0) {
                                 addComments.setVisibility(View.VISIBLE);
                                 commentsRecyclerView.setVisibility(View.GONE);
-                            }else{
+                            } else {
                                 commentsRecyclerView.setVisibility(View.VISIBLE);
                                 addComments.setVisibility(View.GONE);
                             }
@@ -171,14 +168,13 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
         }).start();
 
 
-
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent modify = new Intent(ListDetailActivity.this,EditInputActivity.class);
-                modify.putExtra("id",detailId);
+                Intent modify = new Intent(ListDetailActivity.this, EditInputActivity.class);
+                modify.putExtra("id", detailId);
                 startActivity(modify);
-                Log.e("DETAILACTIVITY","id" + detailId);
+                Log.e("DETAILACTIVITY", "id" + detailId);
             }
         });
 
@@ -186,12 +182,12 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onClick(View v) {
 
-               new Thread(new Runnable() {
-                   @Override
-                   public void run() {
-                       server.postDelete(detailId);
-                   }
-               }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        server.postDelete(detailId);
+                    }
+                }).start();
 
                 finish();
             }
@@ -206,7 +202,7 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                     public void run() {
                         try {
                             String content = comment_editText.getText().toString();
-                            server.postComment(detailId,content);
+                            server.postComment(detailId, content);
 
 
                             detailPost = server.getDetail(detailId);
@@ -217,10 +213,10 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                                 public void run() {
                                     commentsAdapter.notifyDataSetChanged();
                                     comment_editText.setText(" ");
-                                    if (comments.size() == 0){
+                                    if (comments.size() == 0) {
                                         addComments.setVisibility(View.VISIBLE);
                                         commentsRecyclerView.setVisibility(View.GONE);
-                                    }else{
+                                    } else {
                                         commentsRecyclerView.setVisibility(View.VISIBLE);
                                         addComments.setVisibility(View.GONE);
                                     }
@@ -233,17 +229,30 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                 }).start();
             }
         });
-    }
 
+        if (googleMap == null) {
+            SupportMapFragment mapFragment = (WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMap);
+            mapFragment.getMapAsync(this);
+        }
+    }
     @Override
-    public void onMapReady(@NonNull @NotNull GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)
+    {
         this.googleMap = googleMap;
-        this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
 
-        LatLng position = new LatLng(37.56, 126.97);
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
+        
 
-
-       
+        detailList_scrollView = findViewById(R.id.detailList_scrollView); //parent scrollview in xml, give your scrollview id value
+        ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMap))
+                .setListener(new WorkaroundMapFragment.OnTouchListener() {
+                    @Override
+                    public void onTouch()
+                    {
+                        detailList_scrollView.requestDisallowInterceptTouchEvent(true);
+                    }
+                });
     }
+
 }

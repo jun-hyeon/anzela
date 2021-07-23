@@ -53,7 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-
        >
 
        <RelativeLayout
@@ -69,7 +68,7 @@
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="전체모임"
+            android:text="전체 모임"
             android:layout_marginTop="16dp"
             android:textSize="24dp"
             android:textStyle="bold"
@@ -84,9 +83,7 @@
                android:layout_below="@id/mainText"
                android:layout_marginTop="8dp"
                android:layout_marginBottom="8dp"
-
                >
-
            </androidx.recyclerview.widget.RecyclerView>
 
 
@@ -101,7 +98,6 @@
         android:layout_height="match_parent"
         layout="@layout/no_list"
         android:visibility="gone">
-
     </include>
 
 </LinearLayout>

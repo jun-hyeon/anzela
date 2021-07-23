@@ -184,7 +184,7 @@ public class WriteInputActivity extends AppCompatActivity {
                                         post.setStartPoint(startWrite.getText().toString());
                                         post.setEndPoint(arrivalWrite.getText().toString());
                                         if(cb.isChecked()){
-                                            post.setEndPoint("정해지지 않았습니다.");
+                                            post.setEndPoint(null);
                                         }
 
                                         post.setContent(infoWrite.getText().toString());

@@ -427,7 +427,6 @@ public class ListAroundActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-
         Server Around = new Server();
         Thread t1 = new Thread(new Runnable() {
             @Override
@@ -435,8 +434,8 @@ public class ListAroundActivity extends AppCompatActivity {
 
                 try {
 
-
-                   AroundList = Around.getAround(lat, lon,1);
+                   AroundList.clear();
+                   AroundList.addAll(Around.getAround(lat, lon,1));
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

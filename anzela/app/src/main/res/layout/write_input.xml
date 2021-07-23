@@ -29,8 +29,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:paddingVertical="4dp"
-            android:paddingHorizontal="22dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp"
             android:text="완료"
             android:textColor="@color/dark_green"
             android:background="@drawable/write_disable"/>
@@ -335,13 +337,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="48dp">
 
-                       <androidx.recyclerview.widget.RecyclerView
+                       <ImageView
                            android:paddingStart="16dp"
                            android:paddingBottom="16dp"
-                           android:layout_width="match_parent"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:src="@drawable/ic_gallery"
-                           android:scrollbars="horizontal"
                            />
                     </LinearLayout>
 

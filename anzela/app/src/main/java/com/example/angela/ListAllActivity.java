@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -94,7 +95,7 @@ public class ListAllActivity extends AppCompatActivity {
               }
           });
         t1.start();
-        Onscroll();
+
     }
 
 
@@ -181,11 +182,11 @@ public class ListAllActivity extends AppCompatActivity {
                 public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                     if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
 
+                        page++;
                         Log.e("SCROLL", "SCROLLLLLL" + page);
 
                         new Thread(() -> {
                             try {
-                                page++;
                                 allList.addAll(allPosts.getPosts(page));
 //                                allAdapter.setArrayList(allList);
 
@@ -209,18 +210,22 @@ public class ListAllActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Onscroll();
+        Log.e("RESUME","RESUME");
     }
 
 
     @Override
     protected void onRestart() {
         super.onRestart();
-
+        
+        Log.e("RESTART","RESTART");
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    allList =  allPosts.getPosts(1);
+
+                    allList.clear();
+                    allList.addAll(allPosts.getPosts(1));
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -231,7 +236,6 @@ public class ListAllActivity extends AppCompatActivity {
                                 allRecyclerView.setVisibility(View.VISIBLE);
                                 noList.setVisibility(View.GONE);
                             }
-
                         }
                     });
                 } catch (JSONException e) {
