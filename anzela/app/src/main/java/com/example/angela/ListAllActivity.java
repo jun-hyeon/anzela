@@ -32,7 +32,7 @@ public class ListAllActivity extends AppCompatActivity {
     ArrayList<Post> allList;
     PostAdapter allAdapter;
     LinearLayoutManager layoutManager;
-    int page = 0;
+    int page = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +94,7 @@ public class ListAllActivity extends AppCompatActivity {
               }
           });
         t1.start();
-
+        Onscroll();
     }
 
 
@@ -182,20 +182,18 @@ public class ListAllActivity extends AppCompatActivity {
                     if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
 
                         Log.e("SCROLL", "SCROLLLLLL" + page);
-                        page++;
+
                         new Thread(() -> {
                             try {
+                                page++;
+                                allList.addAll(allPosts.getPosts(page));
+//                                allAdapter.setArrayList(allList);
 
-                                allList = allPosts.getPosts(page);
-                                if(allList.size() == 0){
-                                   page--;
-                                }
-                                allAdapter.setArrayList(allList);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                             if(allAdapter.arrayList.size()>0)
-                                            allAdapter.notifyDataSetChanged();
+                                                allAdapter.notifyDataSetChanged();
                                     }
                                 });
                             } catch (JSONException e) {
@@ -203,31 +201,6 @@ public class ListAllActivity extends AppCompatActivity {
                             }
                         }).start();
                     }
-//                    if(scrollY == 0){
-//                        Log.e("TOp","TOP"+page);
-//                        page--;
-//
-//                        new Thread(() -> {
-//                            try {
-//                                if(page< 0)
-//                                    page = 1;
-//
-//                                allAdapter.setArrayList(allList);
-//                                allList = allPosts.getPosts(page);
-//
-//                                runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        if (allAdapter.arrayList.size() > 0) {
-//                                            allAdapter.notifyDataSetChanged();
-//                                        }
-//                                    }
-//                                });
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }).start();
-//                    }
                 }
             });
         }
@@ -236,36 +209,21 @@ public class ListAllActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Onscroll();
-
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
-    }
 
     @Override
     protected void onRestart() {
         super.onRestart();
 
-        Server allPosts = new Server();
-
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                  ArrayList<Post>  allList =  allPosts.getPosts(1);
+                    allList =  allPosts.getPosts(1);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                          PostAdapter  allAdapter = new PostAdapter(allList);
-                          LinearLayoutManager  layoutManager = new LinearLayoutManager(getApplicationContext());
-                            allRecyclerView.setLayoutManager(layoutManager);
-                            allRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                            allRecyclerView.setAdapter(allAdapter);
-
                             if(allList.size() == 0){
                                 allRecyclerView.setVisibility(View.GONE);
                                 noList.setVisibility(View.VISIBLE);
@@ -282,5 +240,6 @@ public class ListAllActivity extends AppCompatActivity {
             }
         });
         t1.start();
+
     }
 }

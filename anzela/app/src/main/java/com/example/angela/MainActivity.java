@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     CircleImageView mainUserprofile;
     RelativeLayout weatherLayout;
     LinearLayout allLinear,aroundLinear,timelineLinear;
-
+    int page = 1;
 
     private  GpsTracker gpsTracker;
 
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     double lat = gpsTracker.getLatitude();
                     double lon = gpsTracker.getLongitude();
                     Log.e("LatLon"," "+lat +" "+lon);
-                    ArrayList<Post> postList = server.getAround(lat,lon);
+                    ArrayList<Post> postList = server.getAround(lat,lon,page);
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ArrayList<Post> soonList =  server.getSoon();
+                    ArrayList<Post> soonList =  server.getSoon(page);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -486,8 +486,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onStart() {
+        super.onStart();
         Weather weather = new Weather();
 
         Server server = new Server();
@@ -516,7 +516,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ArrayList<Post> soonList =  server.getSoon();
+                    ArrayList<Post> soonList =  server.getSoon(page);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -542,7 +542,7 @@ public class MainActivity extends AppCompatActivity {
                     double lat = gpsTracker.getLatitude();
                     double lon = gpsTracker.getLongitude();
                     Log.e("LatLon"," "+lat +" "+lon);
-                    ArrayList<Post> postList = server.getAround(lat,lon);
+                    ArrayList<Post> postList = server.getAround(lat,lon,page);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

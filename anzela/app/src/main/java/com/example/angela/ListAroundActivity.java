@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,9 +44,14 @@ public class ListAroundActivity extends AppCompatActivity {
     TextView setting;
     RecyclerView aroundRecyclerview;
     LinearLayout noList_around;
-
+    NestedScrollView aroundList_scrollView;
+    Server Around;
+    PostAdapter postAdapter;
+    ArrayList<Post> AroundList;
     private  GpsTracker gpsTracker;
-
+    double lat, lon;
+    int page = 1;
+    RecyclerView.LayoutManager layoutManager;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
@@ -56,14 +62,14 @@ public class ListAroundActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_around);
 
-        Server Around = new Server();
+         Around = new Server();
 
         leftArrow = (ImageView) findViewById(R.id.leftArrow);
         aroundWrite = (TextView) findViewById(R.id.aroundwrite);
         setting = (TextView) findViewById(R.id.setting);
         aroundRecyclerview = (RecyclerView) findViewById(R.id.aroundRecyclerView);
         noList_around = (LinearLayout) findViewById(R.id.noList_around);
-
+        aroundList_scrollView = (NestedScrollView) findViewById(R.id.aroundList_scrollView);
 
         SpannableString settingline = new SpannableString("설정하기");
         settingline.setSpan(new UnderlineSpan(), 0, settingline.length(), 0);
@@ -114,14 +120,14 @@ public class ListAroundActivity extends AppCompatActivity {
 
                 try {
 
-                    double lat = gpsTracker.getLatitude();
-                    double lon = gpsTracker.getLongitude();
-                    ArrayList<Post> AroundList = Around.getAround(lat, lon);
+                     lat = gpsTracker.getLatitude();
+                     lon = gpsTracker.getLongitude();
+                     AroundList = Around.getAround(lat, lon,page);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            PostAdapter postAdapter = new PostAdapter(AroundList);
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                             postAdapter = new PostAdapter(AroundList);
+                             layoutManager = new LinearLayoutManager(getApplicationContext());
                             aroundRecyclerview.setLayoutManager(layoutManager);
                             aroundRecyclerview.setItemAnimator(new DefaultItemAnimator());
                             aroundRecyclerview.setAdapter(postAdapter);
@@ -142,7 +148,6 @@ public class ListAroundActivity extends AppCompatActivity {
         });
 
         t1.start();
-
     }
 
 
@@ -250,9 +255,42 @@ public class ListAroundActivity extends AppCompatActivity {
 
     }
 
+    public void Onscroll() {
+        aroundList_scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
 
+                    Log.e("SCROLL", "SCROLLLLLL" );
+                    new Thread(() -> {
+                        try {
+                            page++;
+                            AroundList.addAll(Around.getAround(lat,lon,page));
+//                                allAdapter.setArrayList(allList);
 
-    public String getCurrentAddress( double latitude, double longitude) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(postAdapter.arrayList.size()>0)
+                                        postAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Onscroll();
+    }
+
+    public String getCurrentAddress(double latitude, double longitude) {
 
         //지오코더... GPS를 주소로 변환
         Geocoder geocoder = new Geocoder(this, Locale.getDefault()); //위도 경도를 주소로 변환
@@ -356,6 +394,9 @@ public class ListAroundActivity extends AppCompatActivity {
         rBuilder.create().show();
     }
 
+
+
+
     //요청코드가 맞을 때 GPS가 활성화 되었는 지
     @Override
     protected  void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -394,17 +435,12 @@ public class ListAroundActivity extends AppCompatActivity {
 
                 try {
 
-                    double lat = gpsTracker.getLatitude();
-                    double lon = gpsTracker.getLongitude();
-                    ArrayList<Post> AroundList = Around.getAround(lat, lon);
+
+                   AroundList = Around.getAround(lat, lon,1);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            PostAdapter postAdapter = new PostAdapter(AroundList);
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                            aroundRecyclerview.setLayoutManager(layoutManager);
-                            aroundRecyclerview.setItemAnimator(new DefaultItemAnimator());
-                            aroundRecyclerview.setAdapter(postAdapter);
+
                             if(AroundList.size() == 0){
                                 aroundRecyclerview.setVisibility(View.GONE);
                                 noList_around.setVisibility(View.VISIBLE);

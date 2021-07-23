@@ -3,6 +3,7 @@ package com.example.angela;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +46,7 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
     LinearLayout addComments;
     CommentsAdapter commentsAdapter;
     RecyclerView.LayoutManager layoutManager;
+    NestedScrollView detailList_scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
         cmtCnt = (TextView) findViewById(R.id.cmtCnt);
         regDate = (TextView) findViewById(R.id.regDate);
         deleteBtn = (TextView) findViewById(R.id.deleteBtn);
+        detailList_scrollView = (NestedScrollView) findViewById(R.id.detailList_scrollView);
 
         userProfile = (CircleImageView) findViewById(R.id.userProfile);
 
@@ -240,5 +243,7 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
         LatLng position = new LatLng(37.56, 126.97);
         this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
 
+
+       
     }
 }

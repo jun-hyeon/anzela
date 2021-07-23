@@ -1,12 +1,14 @@
 package com.example.angela;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +32,11 @@ public class ListTimelineActivity extends AppCompatActivity {
     TextView timelineWrite,timeLinedateText;
     RecyclerView timeLineRecyclerView;
     LinearLayout noList_timeline;
+    NestedScrollView soonList_scrollView;
+    int page = 1;
+    PostAdapter postAdapter;
+    Server server;
+    ArrayList<Post> timelineList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +52,9 @@ public class ListTimelineActivity extends AppCompatActivity {
 
        noList_timeline = (LinearLayout) findViewById(R.id.noList_timeline);
 
-       Server server = new Server();
+       soonList_scrollView = (NestedScrollView) findViewById(R.id.timelineList_scrollView);
+
+        server = new Server();
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
         Date  date = new Date();
@@ -57,11 +66,11 @@ public class ListTimelineActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ArrayList<Post> timelineList = server.getSoon();
+                     timelineList = server.getSoon(page);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            PostAdapter postAdapter = new PostAdapter(timelineList);
+                             postAdapter = new PostAdapter(timelineList);
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                             timeLineRecyclerView.setLayoutManager(layoutManager);
                             timeLineRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -98,6 +107,42 @@ public class ListTimelineActivity extends AppCompatActivity {
         });
     }
 
+    public void Onscroll() {
+        soonList_scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+
+                    Log.e("SCROLL", "SCROLLLLLL" );
+
+                    new Thread(() -> {
+                        try {
+                            page++;
+                            timelineList.addAll(server.getSoon(page));
+//                                allAdapter.setArrayList(allList);
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(postAdapter.arrayList.size()>0)
+                                        postAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Onscroll();
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -106,15 +151,11 @@ public class ListTimelineActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ArrayList<Post> timelineList = server.getSoon();
+                    ArrayList<Post> timelineList = server.getSoon(1);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            PostAdapter postAdapter = new PostAdapter(timelineList);
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                            timeLineRecyclerView.setLayoutManager(layoutManager);
-                            timeLineRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                            timeLineRecyclerView.setAdapter(postAdapter);
+
                             if(timelineList.size() == 0){
                                 timeLineRecyclerView.setVisibility(View.GONE);
                                 noList_timeline.setVisibility(View.VISIBLE);

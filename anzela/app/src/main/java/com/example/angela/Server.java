@@ -161,9 +161,9 @@ public class Server extends Thread{
 
 
 
-    public ArrayList<Post> getAround(double lat, double lng) throws JSONException {
+    public ArrayList<Post> getAround(double lat, double lng,int page) throws JSONException {
 
-        String req = "?page="+ 1 + "&lat=" + lat + "&lng=" + lng;
+        String req = "?page="+ page + "&lat=" + lat + "&lng=" + lng;
 
         String result = get("GET",false,"/api/v1/posts/around"+req,null);
 
@@ -215,12 +215,13 @@ public class Server extends Thread{
         return AroundList;
     }
 
-    public ArrayList<Post> getSoon() throws JSONException{
+    public ArrayList<Post> getSoon(int page) throws JSONException{
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         Date date = new Date();
 
         String strdate = dateFormat.format(date);
-        String result = get("GET",false,"/api/v1/posts/soon?date="+strdate,null);
+        String req = "?page=" + page +"&date=" + strdate;
+        String result = get("GET",false,"/api/v1/posts/soon"+req,null);
 
         JSONObject main = new JSONObject(result);
         //Log.e("SOON",""+main);
