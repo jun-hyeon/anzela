@@ -92,16 +92,13 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
 //         mapFragment.getMapAsync(this);
 
 
-        comment_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    message.setBackground(ContextCompat.getDrawable(ListDetailActivity.this, R.drawable.circle_black));
-                    message.setImageResource(R.drawable.ic_comment_mint);
-                } else {
-                    message.setBackground(ContextCompat.getDrawable(ListDetailActivity.this, R.drawable.circle_aqua_marine));
-                    message.setImageResource(R.drawable.ic_comment_white);
-                }
+        comment_editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                message.setBackground(ContextCompat.getDrawable(ListDetailActivity.this, R.drawable.circle_black));
+                message.setImageResource(R.drawable.ic_comment_mint);
+            } else {
+                message.setBackground(ContextCompat.getDrawable(ListDetailActivity.this, R.drawable.circle_aqua_marine));
+                message.setImageResource(R.drawable.ic_comment_white);
             }
         });
 
@@ -112,54 +109,54 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
                 try {
                     detailPost = server.getDetail(detailId);
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            detailTitle.setText(detailPost.getTitle());
-                            userId.setText(detailPost.getUser().getUid());
-                            content.setText(detailPost.getContent());
+                    runOnUiThread(() -> {
+                        detailTitle.setText(detailPost.getTitle());
+                        userId.setText(detailPost.getUser().getUid());
+                        content.setText(detailPost.getContent());
 
-                            if (detailPost.getCurCnt() < 0) {
-                                cruCnt.setText("제한없음");
-                            } else {
-                                cruCnt.setText("최대 " + detailPost.getCurCnt() + "명");
-                            }
-
-                            profileUrl = detailPost.getUser().getProfileUrl();
-                            startDate.setText(detailPost.getStartDate().substring(0, detailPost.getStartDate().indexOf(" ")));
-                            startPoint.setText(detailPost.getStartPoint());
-
-                            if (detailPost.getEndPoint().equals("정해지지 않았습니다.") || detailPost.getEndPoint().equals(" ") || detailPost.getEndPoint().equals(null)) {
-                                endPoint.setTextColor(ContextCompat.getColor(ListDetailActivity.this, R.color.very_light_pink));
-                            }
-                            endPoint.setText(detailPost.getEndPoint());
-
-                            startLat = detailPost.getStartLat();
-                            startLng = detailPost.getStartLng();
-                            endLat = detailPost.getEndLat();
-                            endLng = detailPost.getEndLng();
-                            regDate.setText(detailPost.getRegDate());
-                            cmtCnt.setText("댓글 " + detailPost.getCmtCnt() + "개");
-
-
-                            comments = detailPost.getComments();
-                            commentsAdapter = new CommentsAdapter(comments);
-                            layoutManager = new LinearLayoutManager(getApplicationContext());
-                            commentsRecyclerView.setLayoutManager(layoutManager);
-                            commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                            commentsRecyclerView.setAdapter(commentsAdapter);
-
-                            if (comments.size() == 0) {
-                                addComments.setVisibility(View.VISIBLE);
-                                commentsRecyclerView.setVisibility(View.GONE);
-                            } else {
-                                commentsRecyclerView.setVisibility(View.VISIBLE);
-                                addComments.setVisibility(View.GONE);
-                            }
-
-
-                            Glide.with(ListDetailActivity.this).load(profileUrl).into(userProfile);
+                        if (detailPost.getCurCnt() < 0) {
+                            cruCnt.setText("제한없음");
+                        } else {
+                            cruCnt.setText("최대 " + detailPost.getCurCnt() + "명");
                         }
+
+                        profileUrl = detailPost.getUser().getProfileUrl();
+                        startDate.setText(detailPost.getStartDate().substring(0, detailPost.getStartDate().indexOf(" ")));
+                        startPoint.setText(detailPost.getStartPoint());
+
+                        if (detailPost.getEndPoint().equals(" ") || detailPost.getEndPoint() == null){
+                            endPoint.setText("정해지지 않았습니다.");
+                            endPoint.setTextColor(ContextCompat.getColor(ListDetailActivity.this, R.color.very_light_pink));
+                        }
+                        if(!detailPost.getEndPoint().equals(" ") || detailPost.getEndPoint() != null){
+                            endPoint.setText(detailPost.getEndPoint());
+                        }
+
+                        startLat = detailPost.getStartLat();
+                        startLng = detailPost.getStartLng();
+                        endLat = detailPost.getEndLat();
+                        endLng = detailPost.getEndLng();
+                        regDate.setText(detailPost.getRegDate());
+                        cmtCnt.setText("댓글 " + detailPost.getCmtCnt() + "개");
+
+
+                        comments = detailPost.getComments();
+                        commentsAdapter = new CommentsAdapter(comments);
+                        layoutManager = new LinearLayoutManager(getApplicationContext());
+                        commentsRecyclerView.setLayoutManager(layoutManager);
+                        commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                        commentsRecyclerView.setAdapter(commentsAdapter);
+
+                        if (comments.size() == 0) {
+                            addComments.setVisibility(View.VISIBLE);
+                            commentsRecyclerView.setVisibility(View.GONE);
+                        } else {
+                            commentsRecyclerView.setVisibility(View.VISIBLE);
+                            addComments.setVisibility(View.GONE);
+                        }
+
+
+                        Glide.with(ListDetailActivity.this).load(profileUrl).into(userProfile);
                     });
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -230,6 +227,14 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
             }
         });
 
+        leftArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+
         if (googleMap == null) {
             SupportMapFragment mapFragment = (WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMap);
             mapFragment.getMapAsync(this);
@@ -240,9 +245,10 @@ public class ListDetailActivity extends AppCompatActivity implements OnMapReadyC
     {
         this.googleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
 
-        
+        LatLng position = new LatLng(37.56,126.97);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,15));
+
 
         detailList_scrollView = findViewById(R.id.detailList_scrollView); //parent scrollview in xml, give your scrollview id value
         ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMap))

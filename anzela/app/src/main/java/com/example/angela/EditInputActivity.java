@@ -190,7 +190,7 @@ public class EditInputActivity extends AppCompatActivity {
                                         post.setStartPoint(startWrite.getText().toString());
                                         post.setEndPoint(arrivalWrite.getText().toString());
                                         if(cb.isChecked()){
-                                            post.setEndPoint(null);
+                                            post.setEndPoint(" ");
                                         }
                                         post.setContent(infoWrite.getText().toString());
 
@@ -202,10 +202,11 @@ public class EditInputActivity extends AppCompatActivity {
                                 }
                             });
                             t1.start();
-                            onBackPressed();
+                            finish();
                         }else{
                             showNecessarryDialog();
                         }
+
                     }
         });
 
